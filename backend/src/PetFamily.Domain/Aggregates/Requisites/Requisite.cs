@@ -1,4 +1,5 @@
-﻿using PetFamily.Domain.SeedWork.Entities;
+﻿using PetFamily.Domain.Aggregates.Pets;
+using PetFamily.Domain.SeedWork.Entities;
 using PetFamily.Domain.SeedWork.Entities.BaseDomain;
 
 namespace PetFamily.Domain.Aggregates.Requisites;
@@ -9,6 +10,10 @@ public class Requisite
     public string Name { get; }
 
     public string Description { get; }
+
+    private Requisite()
+    {
+    }
 
     public Requisite(string name, string description)
     {

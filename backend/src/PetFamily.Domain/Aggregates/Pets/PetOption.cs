@@ -17,6 +17,10 @@ public class PetOption
 
     public DateTime? BirthDayDate { get; }
 
+    private PetOption()
+    {
+    }
+
     public PetOption(string? description, string? breed, string? healthInformation, double? weight, double? height,
         DateTime? birthDayDate)
     {
