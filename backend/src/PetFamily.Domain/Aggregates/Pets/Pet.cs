@@ -1,60 +1,40 @@
 ﻿using PetFamily.Domain.Aggregates.Requisites;
-using PetFamily.Domain.SeedWork.Entities;
 using PetFamily.Domain.SeedWork.Entities.BaseDomain;
 
 namespace PetFamily.Domain.Aggregates.Pets;
 
 public class Pet
-    : DomainEntity, IAggregateRoot
+    : Entity
 {
-    public string NickName { get; }
+    public string NickName { get; private set; }
 
-    public AnimalType AnimalType { get; }
+    public string AnimalType { get; private set; }
+
+    public string Description { get; private set; }
+
+    public string Breed { get; private set; }
 
     public string Color { get; private set; }
 
-    public string CurrentPetAddress { get; }
+    public string HealthInformation { get; private set; }
 
-    public string Phone { get; }
+    public string CurrentPetAddress { get; private set; }
 
-    public bool IsSterialized { get; }
+    public double Weight { get; private set; }
 
-    public bool IsVaccinated { get; }
+    public double Height { get; private set; }
 
-    public StatusType Status { get; }
+    public string Phone { get; private set; }
 
-    public PetOption? PetOptions { get; private set; }
+    public bool IsSterialized { get; private set; }
 
-    public Requisite? Requisite { get; private set; }
+    public DateTime BirthDayDate { get; private set; }
 
-    private Pet()
-    {
-    }
+    public bool IsVaccinated { get; private set; }
 
-    public Pet(string nickName, AnimalType animalType, string color, string currentPetAddress, string phone,
-        bool isSterialized, bool isVaccinated, StatusType status)
-    {
-        NickName = nickName;
-        AnimalType = animalType;
-        Color = color;
-        CurrentPetAddress = currentPetAddress;
-        Phone = phone;
-        IsSterialized = isSterialized;
-        IsVaccinated = isVaccinated;
-        Status = status;
-    }
+    public StatusType Status { get; private set; }
 
-    public Pet SetPetOption(PetOption petOption)
-    {
-        PetOptions = petOption;
+    public Requisite Requisite { get; private set; }
 
-        return this;
-    }
-
-    public Pet SetRequisite(Requisite requisite)
-    {
-        Requisite = requisite;
-
-        return this;
-    }
+    public DateTime DateCreated { get; private set; }
 }
