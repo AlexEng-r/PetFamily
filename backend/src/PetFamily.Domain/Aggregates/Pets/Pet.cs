@@ -18,7 +18,7 @@ public class Pet
 
     public string HealthInformation { get; private set; }
 
-    public string CurrentPetAddress { get; private set; }
+    public string Address { get; private set; }
 
     public double Weight { get; private set; }
 
@@ -34,7 +34,7 @@ public class Pet
 
     public StatusType Status { get; private set; }
 
-    public Requisite Requisite { get; private set; }
+    public List<Requisite> Requisite { get; private set; }
 
     public DateTime DateCreated { get; private set; }
 }

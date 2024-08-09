@@ -2,7 +2,7 @@
 
 public enum StatusType
 {
-    NeedHelp = 1,
+    NeedHelp,
     LookingForAHome,
     FoundAHome
 }
