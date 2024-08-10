@@ -6,5 +6,5 @@ public class Name
 
     public string Surname { get; private set; }
 
-    public string PatronymicName { get; private set; }
+    public string Patronymic { get; private set; }
 }

@@ -1,4 +1,5 @@
-﻿using PetFamily.Domain.Requisites;
+﻿using PetFamily.Domain.PetPhotos;
+using PetFamily.Domain.Requisites;
 using PetFamily.Domain.SeedWork.Entities.BaseDomain;
 
 namespace PetFamily.Domain.Pets;
@@ -37,4 +38,6 @@ public class Pet
     public List<Requisite> Requisites { get; private set; }
 
     public DateTime DateCreated { get; private set; }
+
+    public List<PetPhoto> PetPhotos { get; private set; }
 }
