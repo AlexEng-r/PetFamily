@@ -1,7 +1,7 @@
-﻿using PetFamily.Domain.Aggregates.Requisites;
+﻿using PetFamily.Domain.Requisites;
 using PetFamily.Domain.SeedWork.Entities.BaseDomain;
 
-namespace PetFamily.Domain.Aggregates.Pets;
+namespace PetFamily.Domain.Pets;
 
 public class Pet
     : Entity
@@ -34,7 +34,7 @@ public class Pet
 
     public StatusType Status { get; private set; }
 
-    public List<Requisite> Requisite { get; private set; }
+    public List<Requisite> Requisites { get; private set; }
 
     public DateTime DateCreated { get; private set; }
 }

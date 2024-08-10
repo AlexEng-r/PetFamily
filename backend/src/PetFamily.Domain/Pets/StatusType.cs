@@ -1,4 +1,4 @@
-﻿namespace PetFamily.Domain.Aggregates.Pets;
+﻿namespace PetFamily.Domain.Pets;
 
 public enum StatusType
 {
