@@ -1,4 +1,4 @@
-﻿namespace PetFamily.Domain.Aggregates.Requisites;
+﻿namespace PetFamily.Domain.Requisites;
 
 public class Requisite
 {
