@@ -7,7 +7,7 @@ namespace PetFamily.Domain.Volunteers;
 
 public class Volunteer
 {
-    public Name FullName { get; private set; }
+    public FullName FullName { get; private set; }
 
     public string Description { get; private set; }
 
