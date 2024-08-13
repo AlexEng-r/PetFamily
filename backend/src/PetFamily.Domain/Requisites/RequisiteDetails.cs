@@ -2,5 +2,5 @@
 
 public record RequisiteDetails()
 {
-    public List<Requisite> Requisites { get; private set; }
+    public List<Requisite> Requisites { get; }
 }

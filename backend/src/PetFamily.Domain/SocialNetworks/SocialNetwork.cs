@@ -2,7 +2,7 @@
 
 public record SocialNetwork
 {
-    public string Name { get; private set; }
+    public string Name { get; }
 
-    public string Link { get; private set; }
+    public string Link { get; }
 }
