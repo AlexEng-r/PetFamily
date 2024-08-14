@@ -1,8 +1,8 @@
 ﻿namespace PetFamily.Domain.Requisites;
 
-public class Requisite
+public record Requisite
 {
-    public string Name { get; private set; }
+    public string Name { get; }
 
-    public string Description { get; private set;}
+    public string Description { get; }
 }
