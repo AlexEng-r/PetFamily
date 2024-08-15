@@ -1,6 +1,15 @@
 ﻿namespace PetFamily.Domain.Requisites;
 
-public record RequisiteDetails()
+public record RequisiteDetails
 {
-    public List<Requisite> Requisites { get; }
+    public IReadOnlyList<Requisite> Requisites { get; }
+
+    private RequisiteDetails()
+    {
+    }
+
+    private RequisiteDetails(IReadOnlyList<Requisite> requisites)
+    {
+        Requisites = requisites;
+    }
 }

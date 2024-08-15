@@ -2,5 +2,14 @@
 
 public record SocialNetworkDetails
 {
-    public List<SocialNetwork> SocialNetworks { get; }
+    public IReadOnlyList<SocialNetwork> SocialNetworks { get; }
+
+    private SocialNetworkDetails()
+    {
+    }
+
+    private SocialNetworkDetails(IReadOnlyList<SocialNetwork> socialNetworks)
+    {
+        SocialNetworks = socialNetworks;
+    }
 }

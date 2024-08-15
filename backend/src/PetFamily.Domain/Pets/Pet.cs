@@ -1,31 +1,34 @@
-﻿using PetFamily.Domain.PetPhotos;
+﻿using PetFamily.Domain.Addresses;
+using PetFamily.Domain.Contacts;
+using PetFamily.Domain.PetPhotos;
 using PetFamily.Domain.Requisites;
 using PetFamily.Domain.SeedWork.Entities.BaseDomain;
+using PetFamily.Domain.String;
 
 namespace PetFamily.Domain.Pets;
 
 public class Pet
-    : Entity
+    : Entity<PetId>
 {
-    public string NickName { get; private set; }
+    public NotEmptyString NickName { get; private set; }
 
-    public string AnimalType { get; private set; }
+    public NotEmptyString AnimalType { get; private set; }
 
-    public string? Description { get; private set; }
+    public CanBeEmptyString Description { get; private set; }
 
-    public string? Breed { get; private set; }
+    public CanBeEmptyString Breed { get; private set; }
 
-    public string Color { get; private set; }
+    public NotEmptyString Color { get; private set; }
 
-    public string? HealthInformation { get; private set; }
+    public CanBeEmptyString HealthInformation { get; private set; }
 
-    public string Address { get; private set; }
+    public Address Address { get; private set; }
 
     public double? Weight { get; private set; }
 
     public double? Height { get; private set; }
 
-    public string Phone { get; private set; }
+    public ContactPhone Phone { get; private set; }
 
     public bool IsSterialized { get; private set; }
 
@@ -39,11 +42,12 @@ public class Pet
 
     public DateTime DateCreated { get; private set; }
 
-    private List<PetPhoto> _petPhotos = [];
+    private readonly List<PetPhoto> _petPhotos = [];
 
     public IReadOnlyList<PetPhoto> PetPhotos => _petPhotos.AsReadOnly();
 
-    private Pet()
+    private Pet(PetId id)
+        : base(id)
     {
     }
 }

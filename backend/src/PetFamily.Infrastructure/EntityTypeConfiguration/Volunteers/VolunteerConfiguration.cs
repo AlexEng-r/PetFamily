@@ -14,20 +14,49 @@ public class VolunteerConfiguration
 
         builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.Id).ValueGeneratedNever();
-        builder.Property(x => x.Description).IsRequired().HasMaxLength(ConfigurationConstraint.MAX_TEXT_LENGTH);
+        builder.Property(x => x.Id)
+            .HasConversion(
+                id => id.Value,
+                value => VolunteerId.Create(value));
+
         builder.Property(x => x.Experience).IsRequired();
-        builder.Property(x => x.Phone).IsRequired().HasMaxLength(ConfigurationConstraint.MIN20_TEXT_LENGTH);
 
         builder.Ignore(x => x.PetsAdoptedCount);
         builder.Ignore(x => x.PetsInSearchCount);
         builder.Ignore(x => x.PetsOnTreatment);
 
-        builder.OwnsOne(x => x.FullName, fn =>
+        builder.ComplexProperty(x => x.FullName, fn =>
         {
-            fn.Property(x => x.FirstName).IsRequired().HasMaxLength(ConfigurationConstraint.MIN20_TEXT_LENGTH);
-            fn.Property(x => x.Surname).IsRequired().HasMaxLength(ConfigurationConstraint.MIN20_TEXT_LENGTH);
-            fn.Property(x => x.Patronymic).IsRequired().HasMaxLength(ConfigurationConstraint.MIN20_TEXT_LENGTH);
+            fn.Property(x => x.FirstName)
+                .IsRequired()
+                .HasMaxLength(ConfigurationConstraint.MIN20_TEXT_LENGTH)
+                .HasColumnName("firstname");
+
+            fn.Property(x => x.Surname)
+                .IsRequired()
+                .HasMaxLength(ConfigurationConstraint.MIN20_TEXT_LENGTH)
+                .HasColumnName("surname");
+
+            fn.Property(x => x.Patronymic)
+                .IsRequired()
+                .HasMaxLength(ConfigurationConstraint.MIN20_TEXT_LENGTH)
+                .HasColumnName("patronymic");
+        });
+
+        builder.ComplexProperty(x => x.Description, d =>
+        {
+            d.Property(x => x.Value)
+                .IsRequired()
+                .HasMaxLength(ConfigurationConstraint.MAX_TEXT_LENGTH)
+                .HasColumnName("description");
+        });
+
+        builder.ComplexProperty(x => x.Phone, p =>
+        {
+            p.Property(x => x.Value)
+                .IsRequired()
+                .HasMaxLength(ConfigurationConstraint.MIN20_TEXT_LENGTH)
+                .HasColumnName("phone");
         });
 
         builder.OwnsOne(x => x.SocialNetworks, sd =>

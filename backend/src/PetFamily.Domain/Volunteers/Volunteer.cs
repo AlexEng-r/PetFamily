@@ -1,19 +1,31 @@
-﻿using PetFamily.Domain.Fullname;
+﻿using PetFamily.Domain.Contacts;
+using PetFamily.Domain.FullNames;
 using PetFamily.Domain.Pets;
 using PetFamily.Domain.Requisites;
 using PetFamily.Domain.SeedWork.Entities.BaseDomain;
 using PetFamily.Domain.SocialNetworks;
+using PetFamily.Domain.String;
 
 namespace PetFamily.Domain.Volunteers;
 
 public class Volunteer
-    : Entity
+    : Entity<VolunteerId>
 {
     public FullName FullName { get; private set; }
 
-    public string Description { get; private set; }
+    public NotEmptyString Description { get; private set; }
 
     public int Experience { get; private set; }
+
+    public ContactPhone Phone { get; private set; }
+
+    public SocialNetworkDetails SocialNetworks { get; private set; }
+
+    public RequisiteDetails Requisites { get; private set; }
+
+    private readonly List<Pet> _pets = [];
+
+    public IReadOnlyList<Pet> Pets => _pets.AsReadOnly();
 
     public int PetsAdoptedCount => Pets.Count(x => x.Status == StatusType.FoundAHome);
 
@@ -21,13 +33,8 @@ public class Volunteer
 
     public int PetsOnTreatment => Pets.Count(x => x.Status == StatusType.NeedHelp);
 
-    public string Phone { get; private set; }
-
-    public SocialNetworkDetails SocialNetworks { get; private set; }
-
-    public RequisiteDetails Requisites { get; private set; }
-
-    private List<Pet> _pets = [];
-
-    public IReadOnlyList<Pet> Pets => _pets.AsReadOnly();
+    private Volunteer(VolunteerId id)
+        :base(id)
+    {
+    }
 }

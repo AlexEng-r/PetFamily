@@ -1,19 +1,20 @@
 ﻿namespace PetFamily.Domain.SeedWork.Entities.BaseDomain;
 
-public abstract class Entity
+public abstract class Entity<TId>
+    where TId: notnull
 {
-    public Guid Id { get; } = Guid.Empty;
+    public TId Id { get; }
 
     protected Entity()
     {
     }
 
-    protected Entity(Guid id)
+    protected Entity(TId id)
     {
         Id = id;
     }
 
-    public static bool operator ==(Entity? first, Entity? second)
+    public static bool operator ==(Entity<TId>? first, Entity<TId>? second)
     {
         if (ReferenceEquals(first, null) && ReferenceEquals(second, null))
             return true;
@@ -24,24 +25,14 @@ public abstract class Entity
         return first.Equals(second);
     }
 
-    public static bool operator !=(Entity? first, Entity? second)
+    public static bool operator !=(Entity<TId>? first, Entity<TId>? second)
     {
         return !(first == second);
     }
 
-    public override bool Equals(object? obj)
-    {
-        if (obj is not Entity other)
-            return false;
-
-        if (ReferenceEquals(this, other) == false)
-            return false;
-
-        if (GetType() != other.GetType())
-            return false;
-
-        return Id == other.Id;
-    }
+    public override bool Equals(object? obj) => obj is Entity<TId> other &&
+                                                Id.Equals(other.Id) &&
+                                                GetType() == obj.GetType();
 
     public override int GetHashCode()
     {
