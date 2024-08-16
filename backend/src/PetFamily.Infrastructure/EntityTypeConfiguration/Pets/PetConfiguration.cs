@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PetFamily.Domain.Breeds;
 using PetFamily.Domain.Pets;
 using PetFamily.Domain.SeedWork;
+using PetFamily.Domain.SpeciesDetails;
+using PetFamily.Domain.Specieses;
 
 namespace PetFamily.Infrastructure.EntityTypeConfiguration.Pets;
 
@@ -88,6 +91,23 @@ public class PetConfiguration
                 .IsRequired()
                 .HasMaxLength(ConfigurationConstraint.MIN20_TEXT_LENGTH)
                 .HasColumnName("phone");
+        });
+
+        builder.ComplexProperty(x => x.SpeciesDetail, sd =>
+        {
+            sd.Property(x => x.SpeciesId)
+                .IsRequired()
+                .HasConversion(
+                id => id.Value,
+                value => SpeciesId.Create(value))
+                .HasColumnName("species_id");
+
+            sd.Property(x => x.BreedId)
+                .IsRequired()
+                .HasConversion(
+                    id => id.Value,
+                    value => BreedId.Create(value))
+                .HasColumnName("breed_id");
         });
 
         builder.Property(x => x.IsSterialized).IsRequired();

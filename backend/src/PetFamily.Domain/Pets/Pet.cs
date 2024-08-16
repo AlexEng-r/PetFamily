@@ -3,6 +3,7 @@ using PetFamily.Domain.Contacts;
 using PetFamily.Domain.PetPhotos;
 using PetFamily.Domain.Requisites;
 using PetFamily.Domain.SeedWork.Entities.BaseDomain;
+using PetFamily.Domain.SpeciesDetails;
 using PetFamily.Domain.String;
 
 namespace PetFamily.Domain.Pets;
@@ -39,6 +40,8 @@ public class Pet
     public StatusType Status { get; private set; }
 
     public RequisiteDetails Requisites { get; private set; }
+
+    public SpeciesDetail SpeciesDetail { get; private set; }
 
     public DateTime DateCreated { get; private set; }
 

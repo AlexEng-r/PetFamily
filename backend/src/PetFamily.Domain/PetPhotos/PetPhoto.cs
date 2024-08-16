@@ -15,7 +15,8 @@ public class PetPhoto
     {
     }
 
-    public PetPhoto(NotEmptyString path, bool isMain)
+    public PetPhoto(PetPhotoId id, NotEmptyString path, bool isMain)
+        : base(id)
     {
         Path = path;
         IsMain = isMain;
