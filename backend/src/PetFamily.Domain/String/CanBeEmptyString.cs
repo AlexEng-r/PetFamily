@@ -4,7 +4,7 @@ public record CanBeEmptyString
 {
     public string? Value { get; }
 
-    private CanBeEmptyString(string value)
+    public CanBeEmptyString(string? value)
     {
         Value = value;
     }

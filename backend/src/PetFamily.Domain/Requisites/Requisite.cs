@@ -1,4 +1,7 @@
-﻿namespace PetFamily.Domain.Requisites;
+﻿using CSharpFunctionalExtensions;
+using PetFamily.Domain.SeedWork;
+
+namespace PetFamily.Domain.Requisites;
 
 public record Requisite
 {
@@ -6,9 +9,24 @@ public record Requisite
 
     public string Description { get; }
 
-    public Requisite(string name, string description)
+    private Requisite(string name, string description)
     {
         Name = name;
         Description = description;
+    }
+
+    public static Result<Requisite, Error> Create(string name, string description)
+    {
+        if (string.IsNullOrWhiteSpace(name) || name.Length > ConfigurationConstraint.MIN20_TEXT_LENGTH)
+        {
+            return Errors.General.ValueIsInvalid("Requisite name");
+        }
+
+        if (string.IsNullOrWhiteSpace(description) || description.Length > ConfigurationConstraint.AVERAGE_TEXT_LENGTH)
+        {
+            return Errors.General.ValueIsInvalid("Requisite description");
+        }
+
+        return new Requisite(name, description);
     }
 }

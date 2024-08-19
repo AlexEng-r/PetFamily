@@ -38,7 +38,7 @@ public class VolunteerConfiguration
                 .HasColumnName("surname");
 
             fn.Property(x => x.Patronymic)
-                .IsRequired()
+                .IsRequired(false)
                 .HasMaxLength(ConfigurationConstraint.MIN20_TEXT_LENGTH)
                 .HasColumnName("patronymic");
         });

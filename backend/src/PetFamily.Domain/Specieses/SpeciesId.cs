@@ -9,7 +9,7 @@ public class SpeciesId
         Value = value;
     }
 
-    public static SpeciesId NewPetId() => new(Guid.NewGuid());
+    public static SpeciesId NewSpeciesId() => new(Guid.NewGuid());
 
     public static SpeciesId Empty() => new(Guid.Empty);
 

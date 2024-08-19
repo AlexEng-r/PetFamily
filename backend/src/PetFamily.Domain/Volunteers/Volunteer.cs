@@ -19,9 +19,9 @@ public class Volunteer
 
     public ContactPhone Phone { get; private set; }
 
-    public SocialNetworkDetails SocialNetworks { get; private set; }
+    public SocialNetworkDetails? SocialNetworks { get; private set; }
 
-    public RequisiteDetails Requisites { get; private set; }
+    public RequisiteDetails? Requisites { get; private set; }
 
     private readonly List<Pet> _pets = [];
 
@@ -34,7 +34,34 @@ public class Volunteer
     public int PetsOnTreatment => Pets.Count(x => x.Status == StatusType.NeedHelp);
 
     private Volunteer(VolunteerId id)
-        :base(id)
+        : base(id)
     {
+    }
+
+    public Volunteer(VolunteerId id,
+        FullName fullName,
+        NotEmptyString description,
+        int experience,
+        ContactPhone phone)
+        : base(id)
+    {
+        FullName = fullName;
+        Description = description;
+        Experience = experience;
+        Phone = phone;
+    }
+
+    public Volunteer SetSocialNetworks(IReadOnlyList<SocialNetwork> socialNetworks)
+    {
+        SocialNetworks = new SocialNetworkDetails(socialNetworks);
+
+        return this;
+    }
+
+    public Volunteer SetRequisites(IReadOnlyList<Requisite> requisites)
+    {
+        Requisites = new RequisiteDetails(requisites);
+
+        return this;
     }
 }

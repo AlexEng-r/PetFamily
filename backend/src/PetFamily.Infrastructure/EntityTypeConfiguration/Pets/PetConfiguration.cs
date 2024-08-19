@@ -104,9 +104,6 @@ public class PetConfiguration
 
             sd.Property(x => x.BreedId)
                 .IsRequired()
-                .HasConversion(
-                    id => id.Value,
-                    value => BreedId.Create(value))
                 .HasColumnName("breed_id");
         });
 
