@@ -7,7 +7,7 @@ namespace PetFamily.API.Controllers;
 public class VolunteerController
     : BaseController
 {
-    [HttpPost("create")]
+    [HttpPost]
     public async Task<ActionResult<Guid>> Create([FromBody] CreateVolunteerRequest request,
         [FromServices] CreateVolunteersService createVolunteersService,
         CancellationToken cancellationToken)
