@@ -39,7 +39,7 @@ public class VolunteersRepository
         CancellationToken cancellationToken = default)
     {
         var volunteer = await _dbContext.Volunteers
-            .FirstOrDefaultAsync(cancellationToken);
+            .FirstOrDefaultAsync(x => x.Id == volunteerId, cancellationToken);
 
         if (volunteer == null)
         {
