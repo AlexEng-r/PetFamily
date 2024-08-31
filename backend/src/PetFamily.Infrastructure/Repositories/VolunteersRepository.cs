@@ -48,4 +48,11 @@ public class VolunteersRepository
 
         return volunteer;
     }
+
+    public Task Delete(Volunteer volunteer, CancellationToken cancellationToken = default)
+    {
+        _dbContext.Volunteers.Remove(volunteer);
+
+        return Task.CompletedTask;
+    }
 }

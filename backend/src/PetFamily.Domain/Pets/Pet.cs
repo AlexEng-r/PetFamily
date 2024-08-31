@@ -2,6 +2,7 @@
 using PetFamily.Domain.Contacts;
 using PetFamily.Domain.PetPhotos;
 using PetFamily.Domain.Requisites;
+using PetFamily.Domain.SeedWork;
 using PetFamily.Domain.SeedWork.Entities.BaseDomain;
 using PetFamily.Domain.SpeciesDetails;
 using PetFamily.Domain.String;
@@ -9,7 +10,7 @@ using PetFamily.Domain.String;
 namespace PetFamily.Domain.Pets;
 
 public class Pet
-    : Entity<PetId>
+    : Entity<PetId>, ISoftDeletable
 {
     public NotEmptyString NickName { get; private set; }
 
@@ -49,8 +50,14 @@ public class Pet
 
     public IReadOnlyList<PetPhoto> PetPhotos => _petPhotos.AsReadOnly();
 
+    private bool _isDeleted;
+
     private Pet(PetId id)
         : base(id)
     {
     }
+
+    public void Delete() => _isDeleted = true;
+
+    public void Restore() => _isDeleted = false;
 }

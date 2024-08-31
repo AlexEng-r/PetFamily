@@ -2,6 +2,7 @@
 using PetFamily.Domain.FullNames;
 using PetFamily.Domain.Pets;
 using PetFamily.Domain.Requisites;
+using PetFamily.Domain.SeedWork;
 using PetFamily.Domain.SeedWork.Entities.BaseDomain;
 using PetFamily.Domain.SocialNetworks;
 using PetFamily.Domain.String;
@@ -9,7 +10,7 @@ using PetFamily.Domain.String;
 namespace PetFamily.Domain.Volunteers;
 
 public class Volunteer
-    : Entity<VolunteerId>
+    : Entity<VolunteerId>, ISoftDeletable
 {
     public FullName FullName { get; private set; }
 
@@ -32,6 +33,8 @@ public class Volunteer
     public int PetsInSearchCount => Pets.Count(x => x.Status == StatusType.LookingForAHome);
 
     public int PetsOnTreatment => Pets.Count(x => x.Status == StatusType.NeedHelp);
+
+    private bool _isDeleted;
 
     private Volunteer(VolunteerId id)
         : base(id)
@@ -74,4 +77,8 @@ public class Volunteer
 
         return this;
     }
+
+    public void Delete() => _isDeleted = true;
+
+    public void Restore() => _isDeleted = false;
 }

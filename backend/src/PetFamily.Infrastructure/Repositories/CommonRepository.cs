@@ -1,4 +1,6 @@
-﻿using PetFamily.Application.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using PetFamily.Application.Repositories;
+using PetFamily.Domain.SeedWork;
 using PetFamily.Infrastructure.DatabaseContext;
 
 namespace PetFamily.Infrastructure.Repositories;
@@ -15,8 +17,16 @@ public class CommonRepository
 
     public async Task SaveChanges(CancellationToken cancellationToken = default)
     {
-        // Реализация SofrDelete
-        
+        var deletedEntries = _dbContext.ChangeTracker
+            .Entries<ISoftDeletable>()
+            .Where(e => e.State == EntityState.Deleted);
+
+        foreach (var entry in deletedEntries)
+        {
+            entry.State = EntityState.Modified;
+            entry.Entity.Delete();
+        }
+
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }
