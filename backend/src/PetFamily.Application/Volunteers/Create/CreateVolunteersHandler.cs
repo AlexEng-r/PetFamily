@@ -8,18 +8,18 @@ using PetFamily.Domain.SocialNetworks;
 using PetFamily.Domain.String;
 using PetFamily.Domain.Volunteers;
 
-namespace PetFamily.Application.Volunteers.CreateVolunteer;
+namespace PetFamily.Application.Volunteers.Create;
 
-public class CreateVolunteersService
+public class CreateVolunteersHandler
 {
     private readonly IVolunteersRepository _volunteersRepository;
 
-    public CreateVolunteersService(IVolunteersRepository volunteersRepository)
+    public CreateVolunteersHandler(IVolunteersRepository volunteersRepository)
     {
         _volunteersRepository = volunteersRepository;
     }
 
-    public async Task<Result<Guid, Error>> Create(CreateVolunteerRequest request, CancellationToken cancellationToken)
+    public async Task<Result<Guid, Error>> Handle(CreateVolunteerRequest request, CancellationToken cancellationToken)
     {
         var phone = ContactPhone.Create(request.Phone);
 

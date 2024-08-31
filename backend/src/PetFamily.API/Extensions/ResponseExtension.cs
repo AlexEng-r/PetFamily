@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation.Results;
+using Microsoft.AspNetCore.Mvc;
 using PetFamily.API.Response;
 using PetFamily.Domain.SeedWork;
 
@@ -24,6 +25,26 @@ public static class ResponseExtension
         return new ObjectResult(envelope)
         {
             StatusCode = statusCode
+        };
+    }
+
+    public static ActionResult ToValidationErrorResponse(this ValidationResult validationResult)
+    {
+        if (validationResult.IsValid)
+        {
+            throw new InvalidOperationException("Result can`t be succeed");
+        }
+
+        var responseErrors = from validationError in validationResult.Errors
+            let errorMessage = validationError.ErrorMessage
+            let error = Error.Deserialize(errorMessage)
+            select new ResponseError(error.Code, error.Message, validationError.PropertyName);
+
+        var envelope = Envelope.Error(responseErrors);
+
+        return new ObjectResult(envelope)
+        {
+            StatusCode = StatusCodes.Status400BadRequest,
         };
     }
 }

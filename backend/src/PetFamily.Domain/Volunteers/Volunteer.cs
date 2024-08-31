@@ -45,10 +45,20 @@ public class Volunteer
         ContactPhone phone)
         : base(id)
     {
+        UpdateMainInfo(fullName, description, experience, phone);
+    }
+
+    public Volunteer UpdateMainInfo(FullName fullName,
+        NotEmptyString description,
+        int experience,
+        ContactPhone phone)
+    {
         FullName = fullName;
         Description = description;
         Experience = experience;
         Phone = phone;
+
+        return this;
     }
 
     public Volunteer SetSocialNetworks(IReadOnlyList<SocialNetwork> socialNetworks)
