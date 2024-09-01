@@ -39,7 +39,9 @@ public class VolunteersRepository
         CancellationToken cancellationToken = default)
     {
         var volunteer = await _dbContext.Volunteers
-            .FirstOrDefaultAsync(x => x.Id == volunteerId, cancellationToken);
+            .Where(x => x.Id == volunteerId)
+            .Include(x => x.Pets)
+            .FirstOrDefaultAsync(cancellationToken);
 
         if (volunteer == null)
         {
