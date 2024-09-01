@@ -13,8 +13,8 @@ using PetFamily.Infrastructure.DatabaseContext;
 namespace PetFamily.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240819195610_nullSocNetAndReq")]
-    partial class nullSocNetAndReq
+    [Migration("20240901153140_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

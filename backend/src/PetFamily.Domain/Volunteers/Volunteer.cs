@@ -61,14 +61,14 @@ public class Volunteer
         return this;
     }
 
-    public Volunteer SetSocialNetworks(IReadOnlyList<SocialNetwork> socialNetworks)
+    public Volunteer SetSocialNetworks(IEnumerable<SocialNetwork> socialNetworks)
     {
         SocialNetworks = new SocialNetworkDetails(socialNetworks);
 
         return this;
     }
 
-    public Volunteer SetRequisites(IReadOnlyList<Requisite> requisites)
+    public Volunteer SetRequisites(IEnumerable<Requisite> requisites)
     {
         Requisites = new RequisiteDetails(requisites);
 

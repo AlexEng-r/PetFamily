@@ -36,7 +36,7 @@ public class UpdateSocialNetworkHandler
             .Select(x => SocialNetwork.Create(x.Name, x.Link))
             .ToArray();
 
-        volunteer.Value.SetSocialNetworks(socialNetworks.Select(x => x.Value).ToArray());
+        volunteer.Value.SetSocialNetworks(socialNetworks.Select(x => x.Value));
 
         await _commonRepository.SaveChanges(cancellationToken);
 
