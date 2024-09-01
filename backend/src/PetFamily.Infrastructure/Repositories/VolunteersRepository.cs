@@ -30,6 +30,6 @@ public class VolunteersRepository
         return volunteer.Id.Value;
     }
 
-    public Task<bool> AnyByPhone(ContactPhone phone, CancellationToken cancellationToken = default)
-        => _dbContext.Volunteers.AnyAsync(x => x.Phone == phone, cancellationToken);
+    public async Task<bool> AnyByPhone(ContactPhone phone, CancellationToken cancellationToken = default)
+        => await _dbContext.Volunteers.AnyAsync(x => x.Phone == phone, cancellationToken);
 }
