@@ -6,9 +6,9 @@ namespace PetFamily.API.Extensions;
 
 public static class ResponseExtension
 {
-    public static ActionResult ToResponse(this Error result)
+    public static ActionResult ToResponse(this Error error)
     {
-        var statusCode = result.Type switch
+        var statusCode = error.Type switch
         {
             ErrorType.Validation => StatusCodes.Status400BadRequest,
             ErrorType.NotFound => StatusCodes.Status404NotFound,
@@ -17,7 +17,9 @@ public static class ResponseExtension
             _ => StatusCodes.Status500InternalServerError
         };
 
-        var envelope = Envelope.Error(result);
+        var responseError = new ResponseError(error.Code, error.Message, null);
+
+        var envelope = Envelope.Error([responseError]);
 
         return new ObjectResult(envelope)
         {
