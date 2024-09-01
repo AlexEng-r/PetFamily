@@ -8,7 +8,7 @@ public record RequisiteDetails
     {
     }
 
-    private RequisiteDetails(IReadOnlyList<Requisite> requisites)
+    public RequisiteDetails(IReadOnlyList<Requisite> requisites)
     {
         Requisites = requisites;
     }

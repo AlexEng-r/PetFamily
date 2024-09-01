@@ -1,4 +1,6 @@
+using PetFamily.Application.DependencyInjection;
 using PetFamily.Infrastructure.DatabaseContext;
+using PetFamily.Infrastructure.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddApplicationInject();
+builder.Services.AddInfrastructureInject();
 builder.Services.AddScoped<ApplicationDbContext>();
 
 var app = builder.Build();

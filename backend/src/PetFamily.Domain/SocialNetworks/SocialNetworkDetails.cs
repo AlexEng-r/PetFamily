@@ -8,7 +8,7 @@ public record SocialNetworkDetails
     {
     }
 
-    private SocialNetworkDetails(IReadOnlyList<SocialNetwork> socialNetworks)
+    public SocialNetworkDetails(IReadOnlyList<SocialNetwork> socialNetworks)
     {
         SocialNetworks = socialNetworks;
     }

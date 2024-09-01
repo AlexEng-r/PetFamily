@@ -1,4 +1,7 @@
-﻿namespace PetFamily.Domain.Addresses;
+﻿using CSharpFunctionalExtensions;
+using PetFamily.Domain.SeedWork;
+
+namespace PetFamily.Domain.Addresses;
 
 public record Address
 {
@@ -8,10 +11,30 @@ public record Address
 
     public string Flat { get; }
 
-    public Address(string city, string house, string flat)
+    private Address(string city, string house, string flat)
     {
         City = city;
         House = house;
         Flat = flat;
+    }
+
+    public static Result<Address, Error> Create(string city, string house, string flat)
+    {
+        if (string.IsNullOrWhiteSpace(city) || city.Length > ConfigurationConstraint.MIN20_TEXT_LENGTH)
+        {
+            return Errors.General.ValueIsInvalid("City");
+        }
+
+        if (string.IsNullOrWhiteSpace(house) || house.Length > ConfigurationConstraint.MIN20_TEXT_LENGTH)
+        {
+            return Errors.General.ValueIsInvalid("House");
+        }
+
+        if (string.IsNullOrWhiteSpace(flat) || flat.Length > ConfigurationConstraint.MIN20_TEXT_LENGTH)
+        {
+            return Errors.General.ValueIsInvalid("Flat");
+        }
+
+        return new Address(city, house, flat);
     }
 }
