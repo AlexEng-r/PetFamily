@@ -1,9 +1,9 @@
-﻿using PetFamily.Application.Volunteers.FullNames;
+﻿using PetFamily.Application.Volunteers.Common;
 
 namespace PetFamily.Application.Volunteers.CreateVolunteer;
 
 public record CreateVolunteerRequest(
-    FullNameRequest FullName,
+    FullNameDto FullName,
     string Description,
     int Experience,
     string Phone,
