@@ -1,6 +1,6 @@
 ﻿namespace PetFamily.Domain.Volunteers;
 
-public class VolunteerId
+public record VolunteerId
 {
     public Guid Value { get; }
 

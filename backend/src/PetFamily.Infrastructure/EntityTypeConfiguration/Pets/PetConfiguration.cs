@@ -69,18 +69,17 @@ public class PetConfiguration
 
         builder.ComplexProperty(x => x.Address, a =>
         {
+            a.IsRequired();
+
             a.Property(x => x.City)
-                .IsRequired()
                 .HasMaxLength(ConfigurationConstraint.MIN20_TEXT_LENGTH)
                 .HasColumnName("city");
 
             a.Property(x => x.House)
-                .IsRequired()
                 .HasMaxLength(ConfigurationConstraint.MIN20_TEXT_LENGTH)
                 .HasColumnName("house");
 
             a.Property(x => x.Flat)
-                .IsRequired()
                 .HasMaxLength(ConfigurationConstraint.MIN20_TEXT_LENGTH)
                 .HasColumnName("flat");
         });
@@ -95,15 +94,15 @@ public class PetConfiguration
 
         builder.ComplexProperty(x => x.SpeciesDetail, sd =>
         {
+            sd.IsRequired();
+
             sd.Property(x => x.SpeciesId)
-                .IsRequired()
                 .HasConversion(
                 id => id.Value,
                 value => SpeciesId.Create(value))
                 .HasColumnName("species_id");
 
             sd.Property(x => x.BreedId)
-                .IsRequired()
                 .HasColumnName("breed_id");
         });
 

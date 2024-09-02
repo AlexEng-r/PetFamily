@@ -36,7 +36,7 @@ public class UpdateRequisiteHandler
             .Select(x => Requisite.Create(x.Name, x.Description))
             .ToArray();
 
-        volunteer.Value.SetRequisites(requisites.Select(x => x.Value).ToArray());
+        volunteer.Value.SetRequisites(requisites.Select(x => x.Value));
 
         await _commonRepository.SaveChanges(cancellationToken);
 

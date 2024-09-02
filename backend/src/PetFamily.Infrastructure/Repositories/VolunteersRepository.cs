@@ -32,14 +32,16 @@ public class VolunteersRepository
         return volunteer.Id.Value;
     }
 
-    public Task<bool> AnyByPhone(ContactPhone phone, CancellationToken cancellationToken = default)
-        => _dbContext.Volunteers.AnyAsync(x => x.Phone == phone, cancellationToken);
+    public async Task<bool> AnyByPhone(ContactPhone phone, CancellationToken cancellationToken = default)
+        => await _dbContext.Volunteers.AnyAsync(x => x.Phone == phone, cancellationToken);
 
     public async Task<Result<Volunteer, Error>> GetById(VolunteerId volunteerId,
         CancellationToken cancellationToken = default)
     {
         var volunteer = await _dbContext.Volunteers
-            .FirstOrDefaultAsync(x => x.Id == volunteerId, cancellationToken);
+            .Where(x => x.Id == volunteerId)
+            .Include(x => x.Pets)
+            .FirstOrDefaultAsync(cancellationToken);
 
         if (volunteer == null)
         {
