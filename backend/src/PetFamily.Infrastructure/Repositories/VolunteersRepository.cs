@@ -53,7 +53,12 @@ public class VolunteersRepository
 
     public Task Delete(Volunteer volunteer, CancellationToken cancellationToken = default)
     {
-        _dbContext.Volunteers.Remove(volunteer);
+        volunteer.Delete();
+
+        foreach (var pet in volunteer.Pets)
+        {
+            pet.Delete();
+        }
 
         return Task.CompletedTask;
     }
