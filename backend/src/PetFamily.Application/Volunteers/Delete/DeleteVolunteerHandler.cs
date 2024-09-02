@@ -34,7 +34,7 @@ public class DeleteVolunteerHandler
         await _volunteersRepository.Delete(volunteer.Value, cancellationToken);
         await _commonRepository.SaveChanges(cancellationToken);
 
-        _logger.LogInformation("Successfully updated volunteer #{Id}", request.VolunteerId);
+        _logger.LogInformation("Successfully deleted volunteer #{Id}", request.VolunteerId);
 
         return volunteer.Value.Id.Value;
     }
