@@ -8,8 +8,8 @@ public record RequisiteDetails
     {
     }
 
-    public RequisiteDetails(IReadOnlyList<Requisite> requisites)
+    public RequisiteDetails(IEnumerable<Requisite> requisites)
     {
-        Requisites = requisites;
+        Requisites = requisites.ToList();
     }
 }

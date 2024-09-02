@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CSharpFunctionalExtensions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PetFamily.Application.Repositories.Volunteers;
 using PetFamily.Domain.Contacts;
+using PetFamily.Domain.SeedWork;
 using PetFamily.Domain.Volunteers;
 using PetFamily.Infrastructure.DatabaseContext;
 
@@ -32,4 +34,20 @@ public class VolunteersRepository
 
     public async Task<bool> AnyByPhone(ContactPhone phone, CancellationToken cancellationToken = default)
         => await _dbContext.Volunteers.AnyAsync(x => x.Phone == phone, cancellationToken);
+
+    public async Task<Result<Volunteer, Error>> GetById(VolunteerId volunteerId,
+        CancellationToken cancellationToken = default)
+    {
+        var volunteer = await _dbContext.Volunteers
+            .Where(x => x.Id == volunteerId)
+            .Include(x => x.Pets)
+            .FirstOrDefaultAsync(cancellationToken);
+
+        if (volunteer == null)
+        {
+            return Errors.General.NotFound(volunteerId.Value);
+        }
+
+        return volunteer;
+    }
 }

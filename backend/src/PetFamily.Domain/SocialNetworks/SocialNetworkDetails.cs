@@ -8,8 +8,8 @@ public record SocialNetworkDetails
     {
     }
 
-    public SocialNetworkDetails(IReadOnlyList<SocialNetwork> socialNetworks)
+    public SocialNetworkDetails(IEnumerable<SocialNetwork> socialNetworks)
     {
-        SocialNetworks = socialNetworks;
+        SocialNetworks = socialNetworks.ToList();
     }
 }
