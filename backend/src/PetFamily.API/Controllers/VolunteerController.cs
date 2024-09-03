@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PetFamily.API.Extensions;
 using PetFamily.Application.Volunteers.Create;
+using PetFamily.Application.Volunteers.Delete;
 using PetFamily.Application.Volunteers.UpdateMainInfo;
 using PetFamily.Application.Volunteers.UpdateRequisites;
 using PetFamily.Application.Volunteers.UpdateSocialNetworks;
@@ -83,6 +84,27 @@ public class VolunteerController
         }
 
         var result = await updateRequisiteHandler.Handle(request, cancellationToken);
+
+        return result.IsFailure
+            ? result.Error.ToResponse()
+            : Ok(result.Value);
+    }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<ActionResult> Delete([FromRoute] Guid id,
+        [FromServices] DeleteVolunteerHandler deleteVolunteerHandler,
+        [FromServices] IValidator<DeleteVolunteerRequest> validator,
+        CancellationToken cancellationToken)
+    {
+        var request = new DeleteVolunteerRequest(id);
+
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
+        if (!validationResult.IsValid)
+        {
+            return validationResult.ToValidationErrorResponse();
+        }
+
+        var result = await deleteVolunteerHandler.Handle(request, cancellationToken);
 
         return result.IsFailure
             ? result.Error.ToResponse()

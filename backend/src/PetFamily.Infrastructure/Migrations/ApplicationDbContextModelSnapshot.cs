@@ -123,6 +123,10 @@ namespace PetFamily.Infrastructure.Migrations
                         .HasColumnType("double precision")
                         .HasColumnName("weight");
 
+                    b.Property<bool>("_isDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_Deleted");
+
                     b.Property<Guid?>("volunteer_id")
                         .HasColumnType("uuid")
                         .HasColumnName("volunteer_id");
@@ -278,6 +282,10 @@ namespace PetFamily.Infrastructure.Migrations
                     b.Property<int>("Experience")
                         .HasColumnType("integer")
                         .HasColumnName("experience");
+
+                    b.Property<bool>("_isDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_Deleted");
 
                     b.ComplexProperty<Dictionary<string, object>>("Description", "PetFamily.Domain.Volunteers.Volunteer.Description#NotEmptyString", b1 =>
                         {

@@ -15,8 +15,6 @@ public class CommonRepository
 
     public async Task SaveChanges(CancellationToken cancellationToken = default)
     {
-        // Реализация SofrDelete
-        
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }

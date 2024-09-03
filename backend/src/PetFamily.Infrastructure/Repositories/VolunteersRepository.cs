@@ -50,4 +50,16 @@ public class VolunteersRepository
 
         return volunteer;
     }
+
+    public Task Delete(Volunteer volunteer, CancellationToken cancellationToken = default)
+    {
+        volunteer.Delete();
+
+        foreach (var pet in volunteer.Pets)
+        {
+            pet.Delete();
+        }
+
+        return Task.CompletedTask;
+    }
 }

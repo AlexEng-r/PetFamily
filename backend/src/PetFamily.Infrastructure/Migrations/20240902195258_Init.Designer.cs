@@ -13,8 +13,8 @@ using PetFamily.Infrastructure.DatabaseContext;
 namespace PetFamily.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240901153140_Initial")]
-    partial class Initial
+    [Migration("20240902195258_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -125,6 +125,10 @@ namespace PetFamily.Infrastructure.Migrations
                     b.Property<double?>("Weight")
                         .HasColumnType("double precision")
                         .HasColumnName("weight");
+
+                    b.Property<bool>("_isDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_Deleted");
 
                     b.Property<Guid?>("volunteer_id")
                         .HasColumnType("uuid")
@@ -281,6 +285,10 @@ namespace PetFamily.Infrastructure.Migrations
                     b.Property<int>("Experience")
                         .HasColumnType("integer")
                         .HasColumnName("experience");
+
+                    b.Property<bool>("_isDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_Deleted");
 
                     b.ComplexProperty<Dictionary<string, object>>("Description", "PetFamily.Domain.Volunteers.Volunteer.Description#NotEmptyString", b1 =>
                         {
