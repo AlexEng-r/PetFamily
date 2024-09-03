@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
-using PetFamily.Domain.Contacts;
-using PetFamily.Domain.SeedWork;
-using PetFamily.Domain.Volunteers;
+using PetFamily.Domain.Shared;
+using PetFamily.Domain.ValueObjects.Contacts;
+using PetFamily.Domain.VolunteerManagement.Volunteers;
 
 namespace PetFamily.Application.Repositories.Volunteers;
 

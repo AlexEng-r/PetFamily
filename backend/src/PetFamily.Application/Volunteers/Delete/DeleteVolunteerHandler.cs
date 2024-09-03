@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using PetFamily.Application.Repositories;
 using PetFamily.Application.Repositories.Volunteers;
-using PetFamily.Domain.SeedWork;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Application.Volunteers.Delete;
 

@@ -1,12 +1,12 @@
 ﻿using CSharpFunctionalExtensions;
 using PetFamily.Application.Repositories.Volunteers;
-using PetFamily.Domain.Contacts;
-using PetFamily.Domain.FullNames;
-using PetFamily.Domain.Requisites;
-using PetFamily.Domain.SeedWork;
-using PetFamily.Domain.SocialNetworks;
-using PetFamily.Domain.String;
-using PetFamily.Domain.Volunteers;
+using PetFamily.Domain.Shared;
+using PetFamily.Domain.ValueObjects.Contacts;
+using PetFamily.Domain.ValueObjects.FullNames;
+using PetFamily.Domain.ValueObjects.Requisites;
+using PetFamily.Domain.ValueObjects.SocialNetworks;
+using PetFamily.Domain.ValueObjects.String;
+using PetFamily.Domain.VolunteerManagement.Volunteers;
 
 namespace PetFamily.Application.Volunteers.Create;
 
