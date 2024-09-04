@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using PetFamily.Application.MinioTest;
 using PetFamily.Application.Volunteers.Create;
 using PetFamily.Application.Volunteers.Delete;
 using PetFamily.Application.Volunteers.UpdateMainInfo;
@@ -10,15 +11,16 @@ namespace PetFamily.Application.DependencyInjection;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddApplicationInject(this IServiceCollection collection)
+    public static IServiceCollection AddApplicationInject(this IServiceCollection services)
     {
-        collection.AddScoped<CreateVolunteersHandler>();
-        collection.AddScoped<UpdateMainInfoHandler>();
-        collection.AddScoped<UpdateSocialNetworkHandler>();
-        collection.AddScoped<UpdateRequisiteHandler>();
-        collection.AddScoped<DeleteVolunteerHandler>();
+        services.AddScoped<CreateVolunteersHandler>();
+        services.AddScoped<UpdateMainInfoHandler>();
+        services.AddScoped<UpdateSocialNetworkHandler>();
+        services.AddScoped<UpdateRequisiteHandler>();
+        services.AddScoped<DeleteVolunteerHandler>();
+        services.AddScoped<MinioTestHandler>();
 
-        collection.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
-        return collection;
+        services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
+        return services;
     }
 }

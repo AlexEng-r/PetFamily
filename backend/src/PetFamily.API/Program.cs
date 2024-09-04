@@ -16,7 +16,7 @@ builder.Host.UseSerilog((context, loggerConfig) =>
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 builder.Services.AddApplicationInject();
-builder.Services.AddInfrastructureInject();
+builder.Services.AddInfrastructureInject(builder.Configuration);
 builder.Services.AddScoped<ApplicationDbContext>();
 
 builder.Services.AddFluentValidationAutoValidation(config =>
