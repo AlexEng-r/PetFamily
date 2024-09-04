@@ -17,4 +17,10 @@ public class Species
         : base(id)
     {
     }
+
+    private Species(SpeciesId id, NotEmptyString name)
+        : base(id)
+    {
+        Name = name;
+    }
 }
