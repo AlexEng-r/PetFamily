@@ -12,4 +12,10 @@ public class Breed
         : base(id)
     {
     }
+
+    private Breed(BreedId id, NotEmptyString name)
+        : base(id)
+    {
+        Name = name;
+    }
 }
