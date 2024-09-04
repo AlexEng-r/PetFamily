@@ -2,10 +2,10 @@
 using Microsoft.Extensions.Logging;
 using PetFamily.Application.Repositories;
 using PetFamily.Application.Repositories.Volunteers;
-using PetFamily.Domain.Contacts;
-using PetFamily.Domain.FullNames;
-using PetFamily.Domain.SeedWork;
-using PetFamily.Domain.String;
+using PetFamily.Domain.Shared;
+using PetFamily.Domain.ValueObjects.Contacts;
+using PetFamily.Domain.ValueObjects.FullNames;
+using PetFamily.Domain.ValueObjects.String;
 
 namespace PetFamily.Application.Volunteers.UpdateMainInfo;
 

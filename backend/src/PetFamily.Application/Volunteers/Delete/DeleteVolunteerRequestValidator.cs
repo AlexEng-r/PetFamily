@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using PetFamily.Application.Validators;
-using PetFamily.Domain.SeedWork;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Application.Volunteers.Delete;
 

@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetFamily.Domain.Breeds;
-using PetFamily.Domain.Pets;
-using PetFamily.Domain.SeedWork;
-using PetFamily.Domain.SpeciesDetails;
-using PetFamily.Domain.Specieses;
+using PetFamily.Domain.Shared;
+using PetFamily.Domain.SpeciesManagement.Specieses;
+using PetFamily.Domain.VolunteerManagement.Pets;
 
 namespace PetFamily.Infrastructure.EntityTypeConfiguration.Pets;
 

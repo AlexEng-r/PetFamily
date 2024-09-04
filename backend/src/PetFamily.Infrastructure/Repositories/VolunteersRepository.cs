@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PetFamily.Application.Repositories.Volunteers;
-using PetFamily.Domain.Contacts;
-using PetFamily.Domain.SeedWork;
-using PetFamily.Domain.Volunteers;
+using PetFamily.Domain.Shared;
+using PetFamily.Domain.ValueObjects.Contacts;
+using PetFamily.Domain.VolunteerManagement.Volunteers;
 using PetFamily.Infrastructure.DatabaseContext;
 
 namespace PetFamily.Infrastructure.Repositories;

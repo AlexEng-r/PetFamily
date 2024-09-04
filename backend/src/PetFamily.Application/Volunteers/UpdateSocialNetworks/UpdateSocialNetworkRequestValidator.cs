@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using PetFamily.Application.Validators;
-using PetFamily.Domain.SeedWork;
-using PetFamily.Domain.SocialNetworks;
+using PetFamily.Domain.Shared;
+using PetFamily.Domain.ValueObjects.SocialNetworks;
 
 namespace PetFamily.Application.Volunteers.UpdateSocialNetworks;
 

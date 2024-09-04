@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using PetFamily.Application.Validators;
-using PetFamily.Domain.Requisites;
-using PetFamily.Domain.SeedWork;
+using PetFamily.Domain.Shared;
+using PetFamily.Domain.ValueObjects.Requisites;
 
 namespace PetFamily.Application.Volunteers.UpdateRequisites;
 
