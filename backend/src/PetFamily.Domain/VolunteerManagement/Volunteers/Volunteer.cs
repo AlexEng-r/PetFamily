@@ -1,4 +1,5 @@
-﻿using PetFamily.Domain.Shared.Entities.BaseDomain;
+﻿using PetFamily.Domain.Shared;
+using PetFamily.Domain.Shared.Entities.BaseDomain;
 using PetFamily.Domain.Shared.Interfaces;
 using PetFamily.Domain.ValueObjects.Contacts;
 using PetFamily.Domain.ValueObjects.FullNames;
@@ -21,9 +22,9 @@ public class Volunteer
 
     public ContactPhone Phone { get; private set; }
 
-    public SocialNetworkDetails? SocialNetworks { get; private set; }
+    public ValueObjectList<SocialNetwork>? SocialNetworks { get; private set; }
 
-    public RequisiteDetails? Requisites { get; private set; }
+    public ValueObjectList<Requisite>? Requisites { get; private set; }
 
     private readonly List<Pet> _pets = [];
 
@@ -65,16 +66,28 @@ public class Volunteer
         return this;
     }
 
-    public Volunteer SetSocialNetworks(IEnumerable<SocialNetwork> socialNetworks)
+    public Volunteer SetSocialNetworks(ValueObjectList<SocialNetwork> socialNetworks)
     {
-        SocialNetworks = new SocialNetworkDetails(socialNetworks);
+        SocialNetworks = socialNetworks;
 
         return this;
     }
 
-    public Volunteer SetRequisites(IEnumerable<Requisite> requisites)
+    public Volunteer SetRequisites(ValueObjectList<Requisite> requisites)
     {
-        Requisites = new RequisiteDetails(requisites);
+        Requisites = requisites;
+
+        return this;
+    }
+
+    public Pet? GetPetById(PetId petId)
+        => _pets.FirstOrDefault(x => x.Id == petId);
+
+    public Volunteer AddPet(Pet pet)
+    {
+        // доп логика
+
+        _pets.Add(pet);
 
         return this;
     }

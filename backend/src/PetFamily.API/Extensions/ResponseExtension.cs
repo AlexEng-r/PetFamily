@@ -1,5 +1,4 @@
-﻿using FluentValidation.Results;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PetFamily.API.Response;
 using PetFamily.Domain.Shared;
 
@@ -9,18 +8,9 @@ public static class ResponseExtension
 {
     public static ActionResult ToResponse(this Error error)
     {
-        var statusCode = error.Type switch
-        {
-            ErrorType.Validation => StatusCodes.Status400BadRequest,
-            ErrorType.NotFound => StatusCodes.Status404NotFound,
-            ErrorType.Conflict => StatusCodes.Status409Conflict,
-            ErrorType.Failure => StatusCodes.Status500InternalServerError,
-            _ => StatusCodes.Status500InternalServerError
-        };
+        var statusCode = GetStatusCodeForErrorType(error.Type);
 
-        var responseError = new ResponseError(error.Code, error.Message, null);
-
-        var envelope = Envelope.Error([responseError]);
+        var envelope = Envelope.Error(error.ToErrorList());
 
         return new ObjectResult(envelope)
         {
@@ -28,23 +18,38 @@ public static class ResponseExtension
         };
     }
 
-    public static ActionResult ToValidationErrorResponse(this ValidationResult validationResult)
+    public static ActionResult ToResponse(this ErrorList errors)
     {
-        if (validationResult.IsValid)
-        {
-            throw new InvalidOperationException("Result can`t be succeed");
-        }
+        if (!errors.Any())
+            return new ObjectResult(Envelope.Error(errors))
+            {
+                StatusCode = StatusCodes.Status500InternalServerError
+            };
 
-        var responseErrors = from validationError in validationResult.Errors
-            let errorMessage = validationError.ErrorMessage
-            let error = Error.Deserialize(errorMessage)
-            select new ResponseError(error.Code, error.Message, validationError.PropertyName);
+        var distinctErrorTypes = errors
+            .Select(x => x.Type)
+            .Distinct()
+            .ToList();
 
-        var envelope = Envelope.Error(responseErrors);
+        var statusCode = distinctErrorTypes.Count > 1
+            ? StatusCodes.Status500InternalServerError
+            : GetStatusCodeForErrorType(distinctErrorTypes.First());
+
+        var envelope = Envelope.Error(errors);
 
         return new ObjectResult(envelope)
         {
-            StatusCode = StatusCodes.Status400BadRequest,
+            StatusCode = statusCode
         };
     }
+
+    private static int GetStatusCodeForErrorType(ErrorType errorType) =>
+        errorType switch
+        {
+            ErrorType.Validation => StatusCodes.Status400BadRequest,
+            ErrorType.NotFound => StatusCodes.Status404NotFound,
+            ErrorType.Conflict => StatusCodes.Status409Conflict,
+            ErrorType.Failure => StatusCodes.Status500InternalServerError,
+            _ => StatusCodes.Status500InternalServerError
+        };
 }

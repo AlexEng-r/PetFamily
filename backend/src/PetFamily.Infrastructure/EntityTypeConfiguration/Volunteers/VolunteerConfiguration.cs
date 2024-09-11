@@ -63,7 +63,7 @@ public class VolunteerConfiguration
         {
             sd.ToJson();
 
-            sd.OwnsMany(x => x.SocialNetworks, sn =>
+            sd.OwnsMany(x => x.Values, sn =>
             {
                 sn.Property(x => x.Name).IsRequired().HasMaxLength(ConfigurationConstraint.MIN20_TEXT_LENGTH);
                 sn.Property(x => x.Link).IsRequired().HasMaxLength(ConfigurationConstraint.AVERAGE_TEXT_LENGTH);
@@ -74,7 +74,7 @@ public class VolunteerConfiguration
         {
             rd.ToJson();
 
-            rd.OwnsMany(x => x.Requisites, rq =>
+            rd.OwnsMany(x => x.Values, rq =>
             {
                 rq.Property(x => x.Name).IsRequired().HasMaxLength(ConfigurationConstraint.MIN20_TEXT_LENGTH);
                 rq.Property(x => x.Description).IsRequired().HasMaxLength(ConfigurationConstraint.AVERAGE_TEXT_LENGTH);

@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using PetFamily.Application.MinioTest;
+using PetFamily.Application.Volunteers.AddPetPhoto;
+using PetFamily.Application.Volunteers.AddPets;
 using PetFamily.Application.Volunteers.Create;
 using PetFamily.Application.Volunteers.Delete;
 using PetFamily.Application.Volunteers.UpdateMainInfo;
@@ -18,7 +19,9 @@ public static class DependencyInjection
         services.AddScoped<UpdateSocialNetworkHandler>();
         services.AddScoped<UpdateRequisiteHandler>();
         services.AddScoped<DeleteVolunteerHandler>();
-        services.AddScoped<MinioTestHandler>();
+
+        services.AddScoped<AddPetHandler>();
+        services.AddScoped<AddPetPhotoHandler>();
 
         services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
         return services;

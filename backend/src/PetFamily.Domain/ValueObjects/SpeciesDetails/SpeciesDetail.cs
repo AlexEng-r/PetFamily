@@ -8,7 +8,7 @@ public record SpeciesDetail
 
     public Guid BreedId { get; }
 
-    private SpeciesDetail(SpeciesId speciesId, Guid breedId)
+    public SpeciesDetail(SpeciesId speciesId, Guid breedId)
     {
         SpeciesId = speciesId;
         BreedId = breedId;

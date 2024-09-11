@@ -5,20 +5,12 @@ using PetFamily.Domain.ValueObjects.Requisites;
 
 namespace PetFamily.Application.Volunteers.UpdateRequisites;
 
-public class UpdateRequisiteRequestValidator
-    : AbstractValidator<UpdateRequisiteRequest>
+public class UpdateRequisiteCommandValidator
+    : AbstractValidator<UpdateRequisiteCommand>
 {
-    public UpdateRequisiteRequestValidator()
+    public UpdateRequisiteCommandValidator()
     {
         RuleFor(x => x.VolunteerId).NotEmpty().WithError(Errors.General.ValueIsRequired());
-    }
-}
-
-public class UpdateRequisiteDtoValidator
-    : AbstractValidator<UpdateRequisiteDto>
-{
-    public UpdateRequisiteDtoValidator()
-    {
         RuleForEach(x => x.Requisites).MustBeValueObject(x => Requisite.Create(x.Name, x.Description));
     }
 }

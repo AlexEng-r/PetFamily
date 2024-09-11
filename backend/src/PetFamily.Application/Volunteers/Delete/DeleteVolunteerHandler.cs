@@ -1,6 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
+using FluentValidation;
 using Microsoft.Extensions.Logging;
-using PetFamily.Application.Repositories;
+using PetFamily.Application.Database;
+using PetFamily.Application.Extensions;
 using PetFamily.Application.Repositories.Volunteers;
 using PetFamily.Domain.Shared;
 
@@ -9,32 +11,41 @@ namespace PetFamily.Application.Volunteers.Delete;
 public class DeleteVolunteerHandler
 {
     private readonly IVolunteersRepository _volunteersRepository;
-    private readonly ICommonRepository _commonRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<DeleteVolunteerHandler> _logger;
+    private readonly IValidator<DeleteVolunteerCommand> _validator;
 
     public DeleteVolunteerHandler(
         IVolunteersRepository volunteersRepository,
         ILogger<DeleteVolunteerHandler> logger,
-        ICommonRepository commonRepository)
+        IUnitOfWork unitOfWork,
+        IValidator<DeleteVolunteerCommand> validator)
     {
         _volunteersRepository = volunteersRepository;
         _logger = logger;
-        _commonRepository = commonRepository;
+        _unitOfWork = unitOfWork;
+        _validator = validator;
     }
 
-    public async Task<Result<Guid, Error>> Handle(DeleteVolunteerRequest request,
+    public async Task<Result<Guid, ErrorList>> Handle(DeleteVolunteerCommand command,
         CancellationToken cancellationToken)
     {
-        var volunteer = await _volunteersRepository.GetById(request.VolunteerId, cancellationToken);
+        var validationResult = await _validator.ValidateAsync(command, cancellationToken);
+        if (!validationResult.IsValid)
+        {
+            return validationResult.ToErrorList();
+        }
+        
+        var volunteer = await _volunteersRepository.GetById(command.VolunteerId, cancellationToken);
         if (volunteer.IsFailure)
         {
-            return volunteer.Error;
+            return volunteer.Error.ToErrorList();
         }
 
         await _volunteersRepository.Delete(volunteer.Value, cancellationToken);
-        await _commonRepository.SaveChanges(cancellationToken);
+        await _unitOfWork.SaveChanges(cancellationToken);
 
-        _logger.LogInformation("Successfully deleted volunteer #{Id}", request.VolunteerId);
+        _logger.LogInformation("Successfully deleted volunteer #{Id}", command.VolunteerId);
 
         return volunteer.Value.Id.Value;
     }

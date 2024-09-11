@@ -1,0 +1,97 @@
+﻿using CSharpFunctionalExtensions;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
+using PetFamily.Application.Database;
+using PetFamily.Application.Extensions;
+using PetFamily.Application.Providers;
+using PetFamily.Application.Repositories.Volunteers;
+using PetFamily.Domain.Shared;
+using PetFamily.Domain.ValueObjects.String;
+using PetFamily.Domain.VolunteerManagement.PetPhotos;
+using PetFamily.Domain.VolunteerManagement.Pets;
+using PetFamily.Domain.VolunteerManagement.Volunteers;
+
+namespace PetFamily.Application.Volunteers.AddPetPhoto;
+
+public class AddPetPhotoHandler
+{
+    private readonly IVolunteersRepository _volunteersRepository;
+    private readonly IFileProvider _fileProvider;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly ILogger<AddPetPhotoHandler> _logger;
+    private readonly IValidator<AddPetPhotoCommand> _validator;
+
+    private const string BUCKET_NAME = "photos";
+
+    public AddPetPhotoHandler(IVolunteersRepository volunteersRepository,
+        IUnitOfWork unitOfWork,
+        ILogger<AddPetPhotoHandler> logger,
+        IFileProvider fileProvider,
+        IValidator<AddPetPhotoCommand> validator)
+    {
+        _volunteersRepository = volunteersRepository;
+        _unitOfWork = unitOfWork;
+        _logger = logger;
+        _fileProvider = fileProvider;
+        _validator = validator;
+    }
+
+    public async Task<Result<Guid, ErrorList>> Handle(AddPetPhotoCommand command,
+        CancellationToken cancellationToken = default)
+    {
+        var validationResult = await _validator.ValidateAsync(command, cancellationToken);
+        if (!validationResult.IsValid)
+        {
+            return validationResult.ToErrorList();
+        }
+        
+        var volunteerId = VolunteerId.Create(command.VolunteerId);
+        var volunteer = await _volunteersRepository.GetById(volunteerId, cancellationToken);
+        if (volunteer.IsFailure)
+        {
+            return volunteer.Error.ToErrorList();
+        }
+
+        var petId = PetId.Create(command.PetId);
+        var pet = volunteer.Value.GetPetById(petId);
+        if (pet == null)
+        {
+            return Errors.General.NotFound(petId.Value).ToErrorList();
+        }
+
+        var transaction = await _unitOfWork.BeginTransactionAsync(cancellationToken);
+
+        try
+        {
+            var fileData = command.Files.Select(x
+                => new FileData(x.Stream, Guid.NewGuid() + Path.GetExtension(x.ObjectName), BUCKET_NAME));
+
+            var pathResult = await _fileProvider.UploadFilesAsync(fileData, cancellationToken);
+
+            if (pathResult.IsFailure)
+            {
+                return pathResult.Error.ToErrorList();
+            }
+
+            var petPhotos = pathResult.Value.Select(x
+                => new PetPhoto(PetPhotoId.NewPetPhotoId(), NotEmptyString.Create(x).Value, isMain: false));
+
+            pet.AddPetPhotos(petPhotos);
+
+            await _unitOfWork.SaveChanges(cancellationToken);
+
+            await transaction.CommitAsync(cancellationToken);
+
+            _logger.LogInformation("Added photo for pet {pet.Id}", pet.Id);
+
+            return pet.Id.Value;
+        }
+        catch (Exception ex)
+        {
+            await transaction.RollbackAsync(cancellationToken);
+
+            _logger.LogError("Failed to add pet photo" + ex.Message);
+            return Error.Failure("Failed.add.pet.photo", "Failed to add pet photo").ToErrorList();
+        }
+    }
+}

@@ -1,10 +1,8 @@
 using PetFamily.API.Middlewares;
-using PetFamily.API.Validation;
 using PetFamily.Application.DependencyInjection;
 using PetFamily.Infrastructure.DatabaseContext;
 using PetFamily.Infrastructure.DependencyInjection;
 using Serilog;
-using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,11 +16,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddApplicationInject();
 builder.Services.AddInfrastructureInject(builder.Configuration);
 builder.Services.AddScoped<ApplicationDbContext>();
-
-builder.Services.AddFluentValidationAutoValidation(config =>
-{
-    config.OverrideDefaultResultFactoryWith<CustomResultFactory>();
-});
 
 var app = builder.Build();
 

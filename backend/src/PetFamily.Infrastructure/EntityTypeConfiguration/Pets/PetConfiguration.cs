@@ -123,7 +123,7 @@ public class PetConfiguration
         {
             p.ToJson();
 
-            p.OwnsMany(x => x.Requisites, rq =>
+            p.OwnsMany(x => x.Values, rq =>
             {
                 rq.Property(x => x.Name).IsRequired().HasMaxLength(ConfigurationConstraint.MIN20_TEXT_LENGTH);
                 rq.Property(x => x.Description).IsRequired().HasMaxLength(ConfigurationConstraint.AVERAGE_TEXT_LENGTH);

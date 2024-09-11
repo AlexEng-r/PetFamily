@@ -1,4 +1,5 @@
-﻿using PetFamily.Domain.Shared.Entities.BaseDomain;
+﻿using PetFamily.Domain.Shared;
+using PetFamily.Domain.Shared.Entities.BaseDomain;
 using PetFamily.Domain.Shared.Interfaces;
 using PetFamily.Domain.ValueObjects.Addresses;
 using PetFamily.Domain.ValueObjects.Contacts;
@@ -41,7 +42,7 @@ public class Pet
 
     public StatusType Status { get; private set; }
 
-    public RequisiteDetails Requisites { get; private set; }
+    public ValueObjectList<Requisite> Requisites { get; private set; }
 
     public SpeciesDetail SpeciesDetail { get; private set; }
 
@@ -56,6 +57,89 @@ public class Pet
     private Pet(PetId id)
         : base(id)
     {
+    }
+
+    public Pet(PetId petId,
+        NotEmptyString nickName,
+        NotEmptyString animalType,
+        CanBeEmptyString description,
+        CanBeEmptyString breed,
+        NotEmptyString color,
+        CanBeEmptyString healthInformation,
+        Address address,
+        double? weight,
+        double? height,
+        ContactPhone phone,
+        bool isSterialized,
+        DateTime? birthDayDate,
+        bool isVaccinated,
+        StatusType status,
+        SpeciesDetail speciesDetail,
+        DateTime dateCreated,
+        ValueObjectList<Requisite> requisites)
+        : base(petId)
+    {
+        DateCreated = dateCreated;
+        
+        UpdateMainInfo(nickName,
+            animalType,
+            description,
+            breed, color,
+            healthInformation,
+            address,
+            weight,
+            height,
+            phone,
+            isSterialized,
+            birthDayDate,
+            isVaccinated,
+            status,
+            speciesDetail,
+            requisites);
+    }
+
+    public Pet UpdateMainInfo(NotEmptyString nickName,
+        NotEmptyString animalType,
+        CanBeEmptyString description,
+        CanBeEmptyString breed,
+        NotEmptyString color,
+        CanBeEmptyString healthInformation,
+        Address address,
+        double? weight,
+        double? height,
+        ContactPhone phone,
+        bool isSterialized,
+        DateTime? birthDayDate,
+        bool isVaccinated,
+        StatusType status,
+        SpeciesDetail speciesDetail,
+        ValueObjectList<Requisite> requisites)
+    {
+        NickName = nickName;
+        AnimalType = animalType;
+        Description = description;
+        Breed = breed;
+        Color = color;
+        HealthInformation = healthInformation;
+        Address = address;
+        Weight = weight;
+        Height = height;
+        Phone = phone;
+        IsSterialized = isSterialized;
+        BirthDayDate = birthDayDate;
+        IsVaccinated = isVaccinated;
+        Status = status;
+        SpeciesDetail = speciesDetail;
+        Requisites = requisites;
+
+        return this;
+    }
+
+    public Pet AddPetPhotos(IEnumerable<PetPhoto> photos)
+    {
+        _petPhotos.AddRange(photos);
+
+        return this;
     }
 
     public void Delete() => _isDeleted = true;

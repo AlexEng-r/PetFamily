@@ -1,4 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
+using FluentValidation;
+using PetFamily.Application.Extensions;
 using PetFamily.Application.Repositories.Volunteers;
 using PetFamily.Domain.Shared;
 using PetFamily.Domain.ValueObjects.Contacts;
@@ -13,44 +15,55 @@ namespace PetFamily.Application.Volunteers.Create;
 public class CreateVolunteersHandler
 {
     private readonly IVolunteersRepository _volunteersRepository;
+    private readonly IValidator<CreateVolunteerCommand> _validator;
 
-    public CreateVolunteersHandler(IVolunteersRepository volunteersRepository)
+    public CreateVolunteersHandler(IVolunteersRepository volunteersRepository,
+        IValidator<CreateVolunteerCommand> validator)
     {
         _volunteersRepository = volunteersRepository;
+        _validator = validator;
     }
 
-    public async Task<Result<Guid, Error>> Handle(CreateVolunteerRequest request, CancellationToken cancellationToken)
+    public async Task<Result<Guid, ErrorList>> Handle(CreateVolunteerCommand command, CancellationToken cancellationToken)
     {
-        var phone = ContactPhone.Create(request.Phone);
+        var validationResult = await _validator.ValidateAsync(command, cancellationToken);
+        if (!validationResult.IsValid)
+        {
+            validationResult.ToErrorList();
+        }
+        
+        var phone = ContactPhone.Create(command.Phone);
 
         if (await _volunteersRepository.AnyByPhone(phone.Value, cancellationToken))
         {
-            return Errors.Model.AlreadyExist("Volunteer");
+            return Errors.Model.AlreadyExist("Volunteer").ToErrorList();
         }
 
-        var fullName = FullName.Create(request.FullName.FirstName, request.FullName.Surname,
-            request.FullName.Patronymic);
-        var description = NotEmptyString.Create(request.Description);
+        var fullName = FullName.Create(command.FullName.FirstName, command.FullName.Surname,
+            command.FullName.Patronymic);
+        var description = NotEmptyString.Create(command.Description);
 
         var volunteer = new Volunteer(VolunteerId.NewVolunteerId(), fullName.Value, description.Value,
-            request.Experience, phone.Value);
+            command.Experience, phone.Value);
 
-        if (request.Requisites is { Count: > 0 })
+        if (command.Requisites is { Count: > 0 })
         {
-            var requisites = request.Requisites
+            var requisites = command.Requisites
                 .Select(x => Requisite.Create(x.Name, x.Description))
-                .ToArray();
+                .Select(x => x.Value)
+                .ToList();
 
-            volunteer.SetRequisites(requisites.Select(x => x.Value).ToArray());
+            volunteer.SetRequisites(requisites);
         }
 
-        if (request.SocialNetworks is { Count: > 0 })
+        if (command.SocialNetworks is { Count: > 0 })
         {
-            var socialNetworks = request.SocialNetworks
+            var socialNetworks = command.SocialNetworks
                 .Select(x => SocialNetwork.Create(x.Name, x.Link))
-                .ToArray();
+                .Select(x => x.Value)
+                .ToList();
 
-            volunteer.SetSocialNetworks(socialNetworks.Select(x => x.Value).ToArray());
+            volunteer.SetSocialNetworks(socialNetworks);
         }
 
         return await _volunteersRepository.Add(volunteer, cancellationToken);

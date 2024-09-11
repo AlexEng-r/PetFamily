@@ -2,7 +2,7 @@
 
 namespace PetFamily.Application.Volunteers.Create;
 
-public record CreateVolunteerRequest(
+public record CreateVolunteerCommand(
     FullNameDto FullName,
     string Description,
     int Experience,

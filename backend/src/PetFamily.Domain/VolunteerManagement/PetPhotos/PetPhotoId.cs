@@ -9,7 +9,7 @@ public class PetPhotoId
         Value = value;
     }
 
-    public static PetPhotoId NewPetId() => new(Guid.NewGuid());
+    public static PetPhotoId NewPetPhotoId() => new(Guid.NewGuid());
 
     public static PetPhotoId Empty() => new(Guid.Empty);
 
