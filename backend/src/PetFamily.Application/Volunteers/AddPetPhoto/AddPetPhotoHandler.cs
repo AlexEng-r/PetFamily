@@ -44,7 +44,7 @@ public class AddPetPhotoHandler
         {
             return validationResult.ToErrorList();
         }
-        
+
         var volunteerId = VolunteerId.Create(command.VolunteerId);
         var volunteer = await _volunteersRepository.GetById(volunteerId, cancellationToken);
         if (volunteer.IsFailure)
@@ -59,39 +59,25 @@ public class AddPetPhotoHandler
             return Errors.General.NotFound(petId.Value).ToErrorList();
         }
 
-        var transaction = await _unitOfWork.BeginTransactionAsync(cancellationToken);
+        var fileData = command.Files.Select(x
+            => new FileData(x.Stream, Guid.NewGuid() + Path.GetExtension(x.ObjectName), BUCKET_NAME));
 
-        try
+        var pathResult = await _fileProvider.UploadFilesAsync(fileData, cancellationToken);
+
+        if (pathResult.IsFailure)
         {
-            var fileData = command.Files.Select(x
-                => new FileData(x.Stream, Guid.NewGuid() + Path.GetExtension(x.ObjectName), BUCKET_NAME));
-
-            var pathResult = await _fileProvider.UploadFilesAsync(fileData, cancellationToken);
-
-            if (pathResult.IsFailure)
-            {
-                return pathResult.Error.ToErrorList();
-            }
-
-            var petPhotos = pathResult.Value.Select(x
-                => new PetPhoto(PetPhotoId.NewPetPhotoId(), NotEmptyString.Create(x).Value, isMain: false));
-
-            pet.AddPetPhotos(petPhotos);
-
-            await _unitOfWork.SaveChanges(cancellationToken);
-
-            await transaction.CommitAsync(cancellationToken);
-
-            _logger.LogInformation("Added photo for pet {pet.Id}", pet.Id);
-
-            return pet.Id.Value;
+            return pathResult.Error.ToErrorList();
         }
-        catch (Exception ex)
-        {
-            await transaction.RollbackAsync(cancellationToken);
 
-            _logger.LogError("Failed to add pet photo" + ex.Message);
-            return Error.Failure("Failed.add.pet.photo", "Failed to add pet photo").ToErrorList();
-        }
+        var petPhotos = pathResult.Value.Select(x
+            => new PetPhoto(PetPhotoId.NewPetPhotoId(), NotEmptyString.Create(x).Value, isMain: false));
+
+        pet.AddPetPhotos(petPhotos);
+
+        await _unitOfWork.SaveChanges(cancellationToken);
+
+        _logger.LogInformation("Added photo for pet {pet.Id}", pet.Id);
+
+        return pet.Id.Value;
     }
 }
