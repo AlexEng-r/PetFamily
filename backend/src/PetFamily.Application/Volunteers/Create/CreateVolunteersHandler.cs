@@ -29,7 +29,7 @@ public class CreateVolunteersHandler
         var validationResult = await _validator.ValidateAsync(command, cancellationToken);
         if (!validationResult.IsValid)
         {
-            validationResult.ToErrorList();
+            return validationResult.ToErrorList();
         }
         
         var phone = ContactPhone.Create(command.Phone);
