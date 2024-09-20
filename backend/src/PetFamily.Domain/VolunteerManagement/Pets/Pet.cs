@@ -1,8 +1,9 @@
-﻿using PetFamily.Domain.Shared;
-using PetFamily.Domain.Shared.Entities.BaseDomain;
+﻿using CSharpFunctionalExtensions;
+using PetFamily.Domain.Shared;
 using PetFamily.Domain.Shared.Interfaces;
 using PetFamily.Domain.ValueObjects.Addresses;
 using PetFamily.Domain.ValueObjects.Contacts;
+using PetFamily.Domain.ValueObjects.Positions;
 using PetFamily.Domain.ValueObjects.Requisites;
 using PetFamily.Domain.ValueObjects.SpeciesDetails;
 using PetFamily.Domain.ValueObjects.String;
@@ -12,7 +13,7 @@ using PetFamily.Domain.VolunteerManagement.PetPhotos;
 namespace PetFamily.Domain.VolunteerManagement.Pets;
 
 public class Pet
-    : Entity<PetId>, ISoftDeletable
+    : Shared.Entities.BaseDomain.Entity<PetId>, ISoftDeletable
 {
     public NotEmptyString NickName { get; private set; }
 
@@ -45,6 +46,8 @@ public class Pet
     public ValueObjectList<Requisite> Requisites { get; private set; }
 
     public SpeciesDetail SpeciesDetail { get; private set; }
+
+    public Position Position { get; private set; }
 
     public DateTime DateCreated { get; private set; }
 
@@ -80,7 +83,7 @@ public class Pet
         : base(petId)
     {
         DateCreated = dateCreated;
-        
+
         UpdateMainInfo(nickName,
             animalType,
             description,
@@ -142,7 +145,40 @@ public class Pet
         return this;
     }
 
+    public Pet SetPosition(Position position)
+    {
+        Position = position;
+
+        return this;
+    }
+
     public void Delete() => _isDeleted = true;
 
     public void Restore() => _isDeleted = false;
+
+    public UnitResult<Error> MoveToForward()
+    {
+        var newPosition = Position.Forward();
+        if (newPosition.IsFailure)
+        {
+            return newPosition.Error;
+        }
+
+        Position = newPosition.Value;
+
+        return Result.Success<Error>();
+    }
+
+    public UnitResult<Error> MoveBack()
+    {
+        var newPosition = Position.Back();
+        if (newPosition.IsFailure)
+        {
+            return newPosition.Error;
+        }
+
+        Position = newPosition.Value;
+
+        return Result.Success<Error>();
+    }
 }

@@ -16,6 +16,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{32D1E4DE-F7A2-41A4-9199-E4E639101ABC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.Domain.UnitTest", "PetFamily.Domain.UnitTest\PetFamily.Domain.UnitTest.csproj", "{CBD2B253-8088-4C77-95AB-4C309C0C3096}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,5 +45,12 @@ Global
 		{054BFC7B-B6D6-4816-91B8-B6F89949D717}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{054BFC7B-B6D6-4816-91B8-B6F89949D717}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{054BFC7B-B6D6-4816-91B8-B6F89949D717}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBD2B253-8088-4C77-95AB-4C309C0C3096}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBD2B253-8088-4C77-95AB-4C309C0C3096}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBD2B253-8088-4C77-95AB-4C309C0C3096}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBD2B253-8088-4C77-95AB-4C309C0C3096}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CBD2B253-8088-4C77-95AB-4C309C0C3096} = {32D1E4DE-F7A2-41A4-9199-E4E639101ABC}
 	EndGlobalSection
 EndGlobal

@@ -96,12 +96,19 @@ public class PetConfiguration
 
             sd.Property(x => x.SpeciesId)
                 .HasConversion(
-                id => id.Value,
-                value => SpeciesId.Create(value))
+                    id => id.Value,
+                    value => SpeciesId.Create(value))
                 .HasColumnName("species_id");
 
             sd.Property(x => x.BreedId)
                 .HasColumnName("breed_id");
+        });
+
+        builder.ComplexProperty(x => x.Position, sn =>
+        {
+            sn.Property(x => x.Value)
+                .IsRequired()
+                .HasColumnName("position");
         });
 
         builder.Property(x => x.IsSterialized).IsRequired();
