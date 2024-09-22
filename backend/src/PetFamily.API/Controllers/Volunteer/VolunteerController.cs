@@ -5,6 +5,7 @@ using PetFamily.API.Extensions;
 using PetFamily.API.Processors;
 using PetFamily.Application.Volunteers.AddPetPhoto;
 using PetFamily.Application.Volunteers.AddPets;
+using PetFamily.Application.Volunteers.ChangePetPosition;
 using PetFamily.Application.Volunteers.Create;
 using PetFamily.Application.Volunteers.Delete;
 using PetFamily.Application.Volunteers.UpdateMainInfo;
@@ -120,6 +121,22 @@ public class VolunteerController
         var command = new AddPetPhotoCommand(id, petId, files);
 
         var result = await addPetPhotoHandler.Handle(command, cancellationToken);
+
+        return result.IsFailure
+            ? result.Error.ToResponse()
+            : Ok(result.Value);
+    }
+
+    [HttpPut("{id:guid}/pet/{petId:guid}/position")]
+    public async Task<IActionResult> ChangePetPosition([FromRoute] Guid id,
+        [FromRoute] Guid petId,
+        [FromBody] ChangePetPositionRequest request,
+        [FromServices] ChangePetPositionHandler changePetPositionHandler,
+        CancellationToken cancellationToken)
+    {
+        var command = request.ToCommand(id, petId);
+
+        var result = await changePetPositionHandler.Handle(command, cancellationToken);
 
         return result.IsFailure
             ? result.Error.ToResponse()
