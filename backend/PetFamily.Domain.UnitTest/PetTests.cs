@@ -1,23 +1,17 @@
 using FluentAssertions;
-using PetFamily.Domain.ValueObjects.Addresses;
-using PetFamily.Domain.ValueObjects.Contacts;
-using PetFamily.Domain.ValueObjects.FullNames;
+using PetFamily.Base.Test.Builder;
 using PetFamily.Domain.ValueObjects.Positions;
-using PetFamily.Domain.ValueObjects.String;
-using PetFamily.Domain.VolunteerManagement.Enums;
-using PetFamily.Domain.VolunteerManagement.Pets;
-using PetFamily.Domain.VolunteerManagement.Volunteers;
 
 namespace PetFamily.UnitTest;
 
-public class VolunteerTest
+public class PetTests
 {
     [Fact]
     public void Add_Pet_With_Empty_Pet_Return_Success()
     {
         //arrange
-        var volunteer = CreateVolunteerWithPet(0);
-        var pet = CreatePet();
+        var volunteer = VolunteerBuilder.GetVolunteerWithPets(0);
+        var pet = PetBuilder.Create();
 
         //act
         var result = volunteer.AddPet(pet);
@@ -37,8 +31,8 @@ public class VolunteerTest
         //arrage
         const int PET_COUNT = 5;
 
-        var volunteer = CreateVolunteerWithPet(PET_COUNT);
-        var petToAdd = CreatePet();
+        var volunteer = VolunteerBuilder.GetVolunteerWithPets(PET_COUNT);
+        var petToAdd = PetBuilder.Create();
 
         //act
         var result = volunteer.AddPet(petToAdd);
@@ -59,7 +53,7 @@ public class VolunteerTest
         // arrange
         const int PET_COUNT = 5;
 
-        var volunteer = CreateVolunteerWithPet(PET_COUNT);
+        var volunteer = VolunteerBuilder.GetVolunteerWithPets(PET_COUNT);
         var secondPosition = Position.Create(2).Value;
 
         var firstPet = volunteer.Pets[0];
@@ -86,7 +80,7 @@ public class VolunteerTest
         // arrange
         const int PET_COUNT = 5;
 
-        var volunteer = CreateVolunteerWithPet(PET_COUNT);
+        var volunteer = VolunteerBuilder.GetVolunteerWithPets(PET_COUNT);
         var secondPosition = Position.Create(2).Value;
 
         var firstPet = volunteer.Pets[0];
@@ -113,7 +107,7 @@ public class VolunteerTest
         // arrange
         const int PET_COUNT = 5;
 
-        var volunteer = CreateVolunteerWithPet(PET_COUNT);
+        var volunteer = VolunteerBuilder.GetVolunteerWithPets(PET_COUNT);
         var fourthPosition = Position.Create(4).Value;
 
         var firstPet = volunteer.Pets[0];
@@ -140,7 +134,7 @@ public class VolunteerTest
         // arrange
         const int PET_COUNT = 5;
 
-        var volunteer = CreateVolunteerWithPet(PET_COUNT);
+        var volunteer = VolunteerBuilder.GetVolunteerWithPets(PET_COUNT);
         var firstPosition = Position.Create(1).Value;
 
         var firstPet = volunteer.Pets[0];
@@ -167,7 +161,7 @@ public class VolunteerTest
         // arrange
         const int PET_COUNT = 5;
 
-        var volunteer = CreateVolunteerWithPet(PET_COUNT);
+        var volunteer = VolunteerBuilder.GetVolunteerWithPets(PET_COUNT);
         var fifthPosition = Position.Create(5).Value;
 
         var firstPet = volunteer.Pets[0];
@@ -186,53 +180,5 @@ public class VolunteerTest
         thirdPet.Position.Should().Be(Position.Create(2).Value);
         fourthPet.Position.Should().Be(Position.Create(3).Value);
         fifthPet.Position.Should().Be(Position.Create(4).Value);
-    }
-
-    private Volunteer CreateVolunteerWithPet(int petCount)
-    {
-        var fullName = FullName.Create("Test", "Test", "Test").Value;
-        var description = NotEmptyString.Create("TestDescription").Value;
-        var phone = ContactPhone.Create("TestPhone").Value;
-
-        var volunteer = new Volunteer(VolunteerId.NewVolunteerId(), fullName, description, 0, phone);
-
-        for (int i = 0; i < petCount; i++)
-        {
-            var pet = CreatePet();
-            volunteer.AddPet(pet);
-        }
-
-        return volunteer;
-    }
-
-    private Pet CreatePet()
-    {
-        var nickName = NotEmptyString.Create("TestNick").Value;
-        var animalType = NotEmptyString.Create("TestAnimalType").Value;
-        var descriptionPet = new CanBeEmptyString("TestDescription");
-        var breed = new CanBeEmptyString("breed");
-        var color = NotEmptyString.Create("TestColor").Value;
-        var healthInformation = new CanBeEmptyString("TestHealthInformation");
-        var address = Address.Create("TestAddress", "TestAddress", "TestAddress").Value;
-        var phonePet = ContactPhone.Create("TestPhone").Value;
-
-        return new Pet(PetId.NewPetId(),
-            nickName,
-            animalType,
-            descriptionPet,
-            breed,
-            color,
-            healthInformation,
-            address,
-            null,
-            null,
-            phonePet,
-            false,
-            null,
-            false,
-            StatusType.NeedHelp,
-            null!,
-            DateTime.Now,
-            null!);
     }
 }

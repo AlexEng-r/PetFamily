@@ -20,6 +20,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{32D1E4DE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.Domain.UnitTest", "PetFamily.Domain.UnitTest\PetFamily.Domain.UnitTest.csproj", "{CBD2B253-8088-4C77-95AB-4C309C0C3096}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.Application.UnitTest", "PetFamily.Application.UnitTest\PetFamily.Application.UnitTest.csproj", "{0408022D-8430-40F0-9483-13E7874DAA2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.Base.Test", "PetFamily.Base.Test\PetFamily.Base.Test.csproj", "{7B9B7575-1E7D-469B-BA5E-1BBA3914623C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,8 +53,18 @@ Global
 		{CBD2B253-8088-4C77-95AB-4C309C0C3096}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBD2B253-8088-4C77-95AB-4C309C0C3096}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBD2B253-8088-4C77-95AB-4C309C0C3096}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0408022D-8430-40F0-9483-13E7874DAA2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0408022D-8430-40F0-9483-13E7874DAA2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0408022D-8430-40F0-9483-13E7874DAA2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0408022D-8430-40F0-9483-13E7874DAA2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B9B7575-1E7D-469B-BA5E-1BBA3914623C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B9B7575-1E7D-469B-BA5E-1BBA3914623C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B9B7575-1E7D-469B-BA5E-1BBA3914623C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B9B7575-1E7D-469B-BA5E-1BBA3914623C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{CBD2B253-8088-4C77-95AB-4C309C0C3096} = {32D1E4DE-F7A2-41A4-9199-E4E639101ABC}
+		{0408022D-8430-40F0-9483-13E7874DAA2E} = {32D1E4DE-F7A2-41A4-9199-E4E639101ABC}
+		{7B9B7575-1E7D-469B-BA5E-1BBA3914623C} = {32D1E4DE-F7A2-41A4-9199-E4E639101ABC}
 	EndGlobalSection
 EndGlobal
