@@ -4,6 +4,7 @@ using Minio;
 using Minio.DataModel.Args;
 using PetFamily.Application.Providers;
 using PetFamily.Domain.Shared;
+using FileInfo = PetFamily.Application.Providers.FileInfo;
 
 namespace PetFamily.Infrastructure.Providers;
 
@@ -45,24 +46,32 @@ public class MinioProvider
         }
     }
 
-    public async Task<Result<string, Error>> DeleteFileAsync(string fileName, string bucketName,
+    public async Task<UnitResult<Error>> DeleteFileAsync(FileInfo fileInfo,
         CancellationToken cancellationToken = default)
     {
         try
         {
-            var removeArgs = new RemoveObjectArgs()
-                .WithBucket(bucketName)
-                .WithObject(fileName);
+            var statArgs = new StatObjectArgs()
+                .WithBucket(fileInfo.BucketName)
+                .WithObject(fileInfo.FilePath);
 
-            await _minioClient.RemoveObjectAsync(removeArgs, cancellationToken);
+            var statResult = await _minioClient.StatObjectAsync(statArgs, cancellationToken);
+            if (statResult != null)
+            {
+                var removeArgs = new RemoveObjectArgs()
+                    .WithBucket(fileInfo.BucketName)
+                    .WithObject(fileInfo.FilePath);
 
-            return fileName;
+                await _minioClient.RemoveObjectAsync(removeArgs, cancellationToken);
+            }
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "fail to delete file from minio");
             return Error.Failure("file.delete", "fail to delete file from minio");
         }
+
+        return Result.Success<Error>();
     }
 
     public async Task<Result<IReadOnlyList<string>, Error>> UploadFilesAsync(IEnumerable<FileData> files,
@@ -100,7 +109,7 @@ public class MinioProvider
         IEnumerable<FileData> fileContents,
         CancellationToken cancellationToken)
     {
-        HashSet<string> bucketNames = [..fileContents.Select(file => file.BucketName)];
+        HashSet<string> bucketNames = [..fileContents.Select(file => file.FileInfo.BucketName)];
 
         foreach (var bucketName in bucketNames)
         {
@@ -128,10 +137,10 @@ public class MinioProvider
         await semaphoreSlim.WaitAsync(cancellationToken);
 
         var putObjectArgs = new PutObjectArgs()
-            .WithBucket(fileData.BucketName)
+            .WithBucket(fileData.FileInfo.BucketName)
             .WithStreamData(fileData.Stream)
             .WithObjectSize(fileData.Stream.Length)
-            .WithObject(fileData.FilePath);
+            .WithObject(fileData.FileInfo.FilePath);
 
         try
         {
@@ -144,8 +153,8 @@ public class MinioProvider
         {
             _logger.LogError(ex,
                 "Fail to upload file in minio with path {objectName} in bucket {bucket}",
-                fileData.FilePath,
-                fileData.BucketName);
+                fileData.FileInfo.FilePath,
+                fileData.FileInfo.BucketName);
 
             return Error.Failure("file.upload", "Fail to upload file in minio");
         }

@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using PetFamily.Application.MessageQueues;
 using PetFamily.Application.Volunteers.AddPetPhoto;
 using PetFamily.Application.Volunteers.AddPets;
 using PetFamily.Application.Volunteers.ChangePetPosition;
@@ -8,6 +9,7 @@ using PetFamily.Application.Volunteers.Delete;
 using PetFamily.Application.Volunteers.UpdateMainInfo;
 using PetFamily.Application.Volunteers.UpdateRequisites;
 using PetFamily.Application.Volunteers.UpdateSocialNetworks;
+using FileInfo = PetFamily.Application.Providers.FileInfo;
 
 namespace PetFamily.Application.DependencyInjection;
 

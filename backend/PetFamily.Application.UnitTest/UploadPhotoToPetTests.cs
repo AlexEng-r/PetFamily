@@ -5,6 +5,7 @@ using FluentValidation.Results;
 using Microsoft.Extensions.Logging;
 using Moq;
 using PetFamily.Application.Database;
+using PetFamily.Application.MessageQueues;
 using PetFamily.Application.Providers;
 using PetFamily.Application.Repositories.Volunteers;
 using PetFamily.Application.Volunteers.AddPetPhoto;
@@ -12,6 +13,7 @@ using PetFamily.Application.Volunteers.Common;
 using PetFamily.Base.Test.Builder;
 using PetFamily.Domain.Shared;
 using PetFamily.Domain.VolunteerManagement.Volunteers;
+using FileInfo = PetFamily.Application.Providers.FileInfo;
 
 namespace PetFamily.Application.UnitTest;
 
@@ -22,6 +24,7 @@ public class UploadPhotoToPetTests
     private readonly Mock<IUnitOfWork> _unitOfWorkMock = new();
     private readonly Mock<ILogger<AddPetPhotoHandler>> _loggerMock = new();
     private readonly Mock<IFileProvider> _fileProviderMock = new();
+    private readonly Mock<IMessageQueue<IEnumerable<FileInfo>>> _messageQueueMock = new();
 
     [Fact]
     public async void UploadPhotoHandler_ShouldUploadFilesToPet()
@@ -55,12 +58,16 @@ public class UploadPhotoToPetTests
         _fileProviderMock.Setup(x => x.UploadFilesAsync(It.IsAny<IEnumerable<FileData>>(), cancellationToken))
             .ReturnsAsync(Result.Success<IReadOnlyList<string>, Error>(filePath));
 
+        _messageQueueMock.Setup(x => x.WriteAsync(filePath.Select(v => new FileInfo(v, "photos")), cancellationToken))
+            .Returns(Task.CompletedTask);
+
         var handler = new AddPetPhotoHandler(
             _volunteerRepositoryMock.Object,
             _unitOfWorkMock.Object,
             _loggerMock.Object,
             _fileProviderMock.Object,
-            _validatorMock.Object);
+            _validatorMock.Object,
+            _messageQueueMock.Object);
 
         // act
         var resultHandle = await handler.Handle(command, cancellationToken);
@@ -89,18 +96,24 @@ public class UploadPhotoToPetTests
 
         var command = new AddPetPhotoCommand(volunteerId, petId, uploadFileDto);
 
+        var filePath = uploadFileDto.Select(x => x.ObjectName).ToList();
+
         _validatorMock.Setup(x => x.ValidateAsync(command, cancellationToken))
             .ReturnsAsync(new ValidationResult());
 
         _volunteerRepositoryMock.Setup(x => x.GetById(volunteerId, cancellationToken))
             .ReturnsAsync(Result.Failure<Volunteer, Error>(Errors.General.NotFound(volunteerId)));
 
+        _messageQueueMock.Setup(x => x.WriteAsync(filePath.Select(v => new FileInfo(v, "photos")), cancellationToken))
+            .Returns(Task.CompletedTask);
+
         var handler = new AddPetPhotoHandler(
             _volunteerRepositoryMock.Object,
             _unitOfWorkMock.Object,
             _loggerMock.Object,
             _fileProviderMock.Object,
-            _validatorMock.Object);
+            _validatorMock.Object,
+            _messageQueueMock.Object);
 
         // act
         var result = await handler.Handle(command, cancellationToken);
@@ -131,6 +144,8 @@ public class UploadPhotoToPetTests
 
         var command = new AddPetPhotoCommand(volunteerId, petId, uploadFileDto);
 
+        var filePath = uploadFileDto.Select(x => x.ObjectName).ToList();
+
         _validatorMock.Setup(v => v.ValidateAsync(command, cancellationToken))
             .ReturnsAsync(new ValidationResult());
 
@@ -141,12 +156,16 @@ public class UploadPhotoToPetTests
             .ReturnsAsync(Result.Failure<IReadOnlyList<string>, Error>(
                 Error.Failure("file.upload", "Fail to upload files in minio")));
 
+        _messageQueueMock.Setup(x => x.WriteAsync(filePath.Select(v => new FileInfo(v, "photos")), cancellationToken))
+            .Returns(Task.CompletedTask);
+
         var handler = new AddPetPhotoHandler(
             _volunteerRepositoryMock.Object,
             _unitOfWorkMock.Object,
             _loggerMock.Object,
             _fileProviderMock.Object,
-            _validatorMock.Object);
+            _validatorMock.Object,
+            _messageQueueMock.Object);
 
         // act
         var result = await handler.Handle(command, cancellationToken);

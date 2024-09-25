@@ -2,11 +2,17 @@
 using Microsoft.Extensions.DependencyInjection;
 using Minio;
 using PetFamily.Application.Database;
+using PetFamily.Application.MessageQueues;
 using PetFamily.Application.Providers;
 using PetFamily.Application.Repositories.Volunteers;
+using PetFamily.Application.Services;
+using PetFamily.Infrastructure.BackgroundServices;
+using PetFamily.Infrastructure.MessageQueues;
 using PetFamily.Infrastructure.Options;
 using PetFamily.Infrastructure.Providers;
 using PetFamily.Infrastructure.Repositories;
+using PetFamily.Infrastructure.Services;
+using FileInfo = PetFamily.Application.Providers.FileInfo;
 
 namespace PetFamily.Infrastructure.DependencyInjection;
 
@@ -19,6 +25,11 @@ public static class DependencyInjection
         services.AddScoped<IVolunteersRepository, VolunteersRepository>();
 
         services.AddMinio(configuration);
+
+        services.AddHostedService<FileCleanerBackgroundService>();
+
+        services.AddScoped<IFileCleanerService, FileCleanerService>();
+        services.AddSingleton<IMessageQueue<IEnumerable<FileInfo>>, InMemoryMessageQueue<IEnumerable<FileInfo>>>();
 
         return services;
     }
