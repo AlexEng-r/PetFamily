@@ -3,20 +3,32 @@ using Microsoft.AspNetCore.Mvc;
 using PetFamily.API.Controllers.Volunteer.Requests;
 using PetFamily.API.Extensions;
 using PetFamily.API.Processors;
-using PetFamily.Application.Volunteers.AddPetPhoto;
-using PetFamily.Application.Volunteers.AddPets;
-using PetFamily.Application.Volunteers.ChangePetPosition;
-using PetFamily.Application.Volunteers.Create;
-using PetFamily.Application.Volunteers.Delete;
-using PetFamily.Application.Volunteers.UpdateMainInfo;
-using PetFamily.Application.Volunteers.UpdateRequisites;
-using PetFamily.Application.Volunteers.UpdateSocialNetworks;
+using PetFamily.Application.VolunteerManagement.Commands.AddPetPhoto;
+using PetFamily.Application.VolunteerManagement.Commands.AddPets;
+using PetFamily.Application.VolunteerManagement.Commands.ChangePetPosition;
+using PetFamily.Application.VolunteerManagement.Commands.Create;
+using PetFamily.Application.VolunteerManagement.Commands.Delete;
+using PetFamily.Application.VolunteerManagement.Commands.UpdateMainInfo;
+using PetFamily.Application.VolunteerManagement.Commands.UpdateRequisites;
+using PetFamily.Application.VolunteerManagement.Commands.UpdateSocialNetworks;
+using PetFamily.Application.VolunteerManagement.Queries.GetVolunteersWithPagination;
 
 namespace PetFamily.API.Controllers.Volunteer;
 
 public class VolunteerController
     : BaseController
 {
+    [HttpGet]
+    public async Task<IActionResult> Get([FromQuery] GetVolunteersWithPaginationRequest request,
+        [FromServices] GetVolunteersWithPaginationHandler handler, CancellationToken cancellationToken)
+    {
+        var query = request.ToQuery();
+
+        var response = await handler.Handle(query, cancellationToken);
+
+        return Ok(response);
+    }
+
     [HttpPost]
     public async Task<ActionResult<Guid>> Create([FromBody] CreateVolunteerRequest request,
         [FromServices] CreateVolunteersHandler createVolunteersHandler,

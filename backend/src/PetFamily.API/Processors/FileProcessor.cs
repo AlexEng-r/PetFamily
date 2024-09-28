@@ -1,4 +1,4 @@
-﻿using PetFamily.Application.Volunteers.Common;
+﻿using PetFamily.Application.Dtos;
 
 namespace PetFamily.API.Processors;
 

@@ -5,17 +5,17 @@ using PetFamily.Application.Repositories.Volunteers;
 using PetFamily.Domain.Shared;
 using PetFamily.Domain.ValueObjects.Contacts;
 using PetFamily.Domain.VolunteerManagement.Volunteers;
-using PetFamily.Infrastructure.DatabaseContext;
+using PetFamily.Infrastructure.DatabaseContexts;
 
 namespace PetFamily.Infrastructure.Repositories;
 
 public class VolunteersRepository
     : IVolunteersRepository
 {
-    private readonly ApplicationDbContext _dbContext;
+    private readonly WriteDbContext _dbContext;
     private readonly ILogger<VolunteersRepository> _logger;
 
-    public VolunteersRepository(ApplicationDbContext dbContext,
+    public VolunteersRepository(WriteDbContext dbContext,
         ILogger<VolunteersRepository> logger)
     {
         _dbContext = dbContext;

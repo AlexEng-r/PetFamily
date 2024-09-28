@@ -1,6 +1,5 @@
 using PetFamily.API.Middlewares;
 using PetFamily.Application.DependencyInjection;
-using PetFamily.Infrastructure.DatabaseContext;
 using PetFamily.Infrastructure.DependencyInjection;
 using Serilog;
 
@@ -15,7 +14,6 @@ builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 builder.Services.AddApplicationInject();
 builder.Services.AddInfrastructureInject(builder.Configuration);
-builder.Services.AddScoped<ApplicationDbContext>();
 
 var app = builder.Build();
 

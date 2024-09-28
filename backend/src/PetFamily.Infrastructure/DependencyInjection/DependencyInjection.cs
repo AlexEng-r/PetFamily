@@ -7,6 +7,7 @@ using PetFamily.Application.Providers;
 using PetFamily.Application.Repositories.Volunteers;
 using PetFamily.Application.Services;
 using PetFamily.Infrastructure.BackgroundServices;
+using PetFamily.Infrastructure.DatabaseContexts;
 using PetFamily.Infrastructure.MessageQueues;
 using PetFamily.Infrastructure.Options;
 using PetFamily.Infrastructure.Providers;
@@ -21,15 +22,48 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructureInject(this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
-        services.AddScoped<IVolunteersRepository, VolunteersRepository>();
-
-        services.AddMinio(configuration);
-
-        services.AddHostedService<FileCleanerBackgroundService>();
+        services
+            .AddDbContexts(configuration)
+            .AddDatabase(configuration)
+            .AddMinio(configuration)
+            .AddRepositories(configuration)
+            .AddHostedServices(configuration);
 
         services.AddScoped<IFileCleanerService, FileCleanerService>();
         services.AddSingleton<IMessageQueue<IEnumerable<FileInfo>>, InMemoryMessageQueue<IEnumerable<FileInfo>>>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddDbContexts(this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        services.AddScoped<WriteDbContext>();
+        services.AddScoped<IReadDbContext, ReadDbContext>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddRepositories(this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        services.AddScoped<IVolunteersRepository, VolunteersRepository>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddDatabase(this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddHostedServices(this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        services.AddHostedService<FileCleanerBackgroundService>();
 
         return services;
     }
