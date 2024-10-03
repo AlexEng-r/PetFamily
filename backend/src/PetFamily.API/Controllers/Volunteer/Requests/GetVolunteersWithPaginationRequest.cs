@@ -1,9 +1,18 @@
-﻿using PetFamily.Application.Dtos;
-using PetFamily.Application.VolunteerManagement.Queries.GetVolunteersWithPagination;
+﻿using PetFamily.Application.VolunteerManagement.Queries.GetVolunteersWithPagination;
 
 namespace PetFamily.API.Controllers.Volunteer.Requests;
 
-public record GetVolunteersWithPaginationRequest(FullNameDto? FullNameDto, int Page, int PageSize)
+public record GetVolunteersWithPaginationRequest(
+    int? Experience,
+    string? SortBy,
+    string? SortDirection,
+    int Page,
+    int PageSize)
 {
-    public GetFilteredVolunteersWithPaginationQuery ToQuery() => new(FullNameDto, Page, PageSize);
+    public GetFilteredVolunteersWithPaginationQuery ToQuery()
+        => new(Experience,
+            SortBy,
+            SortDirection,
+            Page,
+            PageSize);
 }

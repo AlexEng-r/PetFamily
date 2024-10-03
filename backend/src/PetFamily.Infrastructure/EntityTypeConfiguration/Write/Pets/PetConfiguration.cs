@@ -1,7 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetFamily.Domain.Shared;
 using PetFamily.Domain.SpeciesManagement.Specieses;
+using PetFamily.Domain.ValueObjects.Requisites;
 using PetFamily.Domain.VolunteerManagement.Pets;
 
 namespace PetFamily.Infrastructure.EntityTypeConfiguration.Write.Pets;
@@ -84,7 +87,7 @@ public class PetConfiguration
 
         builder.ComplexProperty(x => x.Phone, p =>
         {
-            p.Property(x => x.Value)
+            p.Property(x => x.Phone)
                 .IsRequired()
                 .HasMaxLength(ConfigurationConstraint.MIN20_TEXT_LENGTH)
                 .HasColumnName("phone");
@@ -126,16 +129,14 @@ public class PetConfiguration
             .HasForeignKey("pet_id")
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.OwnsOne(x => x.Requisites, p =>
-        {
-            p.ToJson();
-
-            p.OwnsMany(x => x.Values, rq =>
-            {
-                rq.Property(x => x.Name).IsRequired().HasMaxLength(ConfigurationConstraint.MIN20_TEXT_LENGTH);
-                rq.Property(x => x.Description).IsRequired().HasMaxLength(ConfigurationConstraint.AVERAGE_TEXT_LENGTH);
-            });
-        });
+        builder.Property(x => x.Requisites)
+            .HasConversion(rq => JsonSerializer.Serialize(rq, JsonSerializerOptions.Default),
+                json => JsonSerializer.Deserialize<List<Requisite>>(json, JsonSerializerOptions.Default)!,
+                new ValueComparer<IReadOnlyList<Requisite>>(
+                    (c1, c2) => c1!.SequenceEqual(c2!),
+                    c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+                    c => c.ToList()))
+            .HasColumnType("jsonb");
 
         builder.Property<bool>("_isDeleted")
             .UsePropertyAccessMode(PropertyAccessMode.Field)

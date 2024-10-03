@@ -43,7 +43,9 @@ public class Pet
 
     public StatusType Status { get; private set; }
 
-    public ValueObjectList<Requisite> Requisites { get; private set; }
+    private List<Requisite> _requisites = [];
+
+    public IReadOnlyList<Requisite> Requisites => _requisites.AsReadOnly();
 
     public SpeciesDetail SpeciesDetail { get; private set; }
 
@@ -116,7 +118,7 @@ public class Pet
         bool isVaccinated,
         StatusType status,
         SpeciesDetail speciesDetail,
-        ValueObjectList<Requisite> requisites)
+        IEnumerable<Requisite> requisites)
     {
         NickName = nickName;
         AnimalType = animalType;
@@ -133,7 +135,7 @@ public class Pet
         IsVaccinated = isVaccinated;
         Status = status;
         SpeciesDetail = speciesDetail;
-        Requisites = requisites;
+        _requisites = requisites.ToList();
 
         return this;
     }

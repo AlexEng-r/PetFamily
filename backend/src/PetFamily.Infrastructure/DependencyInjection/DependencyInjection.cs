@@ -13,6 +13,7 @@ using PetFamily.Infrastructure.Options;
 using PetFamily.Infrastructure.Providers;
 using PetFamily.Infrastructure.Repositories;
 using PetFamily.Infrastructure.Services;
+using PetFamily.Infrastructure.SqlConnection;
 using FileInfo = PetFamily.Application.Providers.FileInfo;
 
 namespace PetFamily.Infrastructure.DependencyInjection;
@@ -56,6 +57,9 @@ public static class DependencyInjection
         IConfiguration configuration)
     {
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<ISqlConnectionFactory, SqlConnectionFactory>();
+
+        Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 
         return services;
     }

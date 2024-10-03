@@ -23,6 +23,7 @@ public class ReadDbContext
         optionsBuilder
             .UseNpgsql(_configuration.GetConnectionString("Database"))
             .UseSnakeCaseNamingConvention()
+            .EnableSensitiveDataLogging()
             .UseLoggerFactory(CreateLoggerFactory());
 
         optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);

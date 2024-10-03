@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetFamily.Application.Dtos;
 using PetFamily.Domain.Shared;
+using PetFamily.Infrastructure.Extensions;
 
 namespace PetFamily.Infrastructure.EntityTypeConfiguration.Read.Volunteers;
 
@@ -31,5 +32,14 @@ public class VolunteerDtoConfiguration
                 .HasMaxLength(ConfigurationConstraint.MIN20_TEXT_LENGTH)
                 .HasColumnName("patronymic");
         });
+        
+        builder.Property(x => x.Description).HasColumnName("description");
+        builder.Property(x => x.Phone).HasColumnName("phone");
+
+        builder.Property(x => x.SocialNetworks)
+            .ValueObjectDtoCollectionJsonConversion();
+
+        builder.Property(x => x.Requisites)
+            .ValueObjectDtoCollectionJsonConversion();
     }
 }

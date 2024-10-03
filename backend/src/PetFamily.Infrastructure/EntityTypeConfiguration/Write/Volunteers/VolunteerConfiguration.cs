@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetFamily.Domain.Shared;
 using PetFamily.Domain.VolunteerManagement.Volunteers;
+using PetFamily.Infrastructure.Extensions;
 
 namespace PetFamily.Infrastructure.EntityTypeConfiguration.Write.Volunteers;
 
@@ -53,33 +54,17 @@ public class VolunteerConfiguration
 
         builder.ComplexProperty(x => x.Phone, p =>
         {
-            p.Property(x => x.Value)
+            p.Property(x => x.Phone)
                 .IsRequired()
                 .HasMaxLength(ConfigurationConstraint.MIN20_TEXT_LENGTH)
                 .HasColumnName("phone");
         });
 
-        builder.OwnsOne(x => x.SocialNetworks, sd =>
-        {
-            sd.ToJson();
+        builder.Property(x => x.SocialNetworks)
+            .ValueObjectCollectionJsonConversion();
 
-            sd.OwnsMany(x => x.Values, sn =>
-            {
-                sn.Property(x => x.Name).IsRequired().HasMaxLength(ConfigurationConstraint.MIN20_TEXT_LENGTH);
-                sn.Property(x => x.Link).IsRequired().HasMaxLength(ConfigurationConstraint.AVERAGE_TEXT_LENGTH);
-            });
-        });
-
-        builder.OwnsOne(x => x.Requisites, rd =>
-        {
-            rd.ToJson();
-
-            rd.OwnsMany(x => x.Values, rq =>
-            {
-                rq.Property(x => x.Name).IsRequired().HasMaxLength(ConfigurationConstraint.MIN20_TEXT_LENGTH);
-                rq.Property(x => x.Description).IsRequired().HasMaxLength(ConfigurationConstraint.AVERAGE_TEXT_LENGTH);
-            });
-        });
+        builder.Property(x => x.Requisites)
+            .ValueObjectCollectionJsonConversion();
 
         builder.HasMany(x => x.Pets)
             .WithOne()

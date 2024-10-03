@@ -5,20 +5,20 @@ namespace PetFamily.Domain.ValueObjects.Contacts;
 
 public record ContactPhone
 {
-    public string Value { get; }
+    public string Phone { get; }
 
-    private ContactPhone(string value)
+    private ContactPhone(string phone)
     {
-        Value = value;
+        Phone = phone;
     }
 
-    public static Result<ContactPhone, Error> Create(string value)
+    public static Result<ContactPhone, Error> Create(string phone)
     {
-        if (string.IsNullOrWhiteSpace(value) || value.Length > ConfigurationConstraint.MIN20_TEXT_LENGTH)
+        if (string.IsNullOrWhiteSpace(phone) || phone.Length > ConfigurationConstraint.MIN20_TEXT_LENGTH)
         {
             return Errors.General.ValueIsInvalid("Phone");
         }
 
-        return new ContactPhone(value);
+        return new ContactPhone(phone);
     }
 }

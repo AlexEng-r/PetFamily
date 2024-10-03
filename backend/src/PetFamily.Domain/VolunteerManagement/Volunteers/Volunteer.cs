@@ -23,9 +23,13 @@ public class Volunteer
 
     public ContactPhone Phone { get; private set; }
 
-    public ValueObjectList<SocialNetwork>? SocialNetworks { get; private set; }
+    private List<SocialNetwork> _socialNetworks = [];
 
-    public ValueObjectList<Requisite>? Requisites { get; private set; }
+    public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks.AsReadOnly();
+
+    private List<Requisite> _requisites = [];
+
+    public IReadOnlyList<Requisite> Requisites => _requisites.AsReadOnly();
 
     private readonly List<Pet> _pets = [];
 
@@ -67,16 +71,16 @@ public class Volunteer
         return this;
     }
 
-    public Volunteer SetSocialNetworks(ValueObjectList<SocialNetwork> socialNetworks)
+    public Volunteer SetSocialNetworks(IEnumerable<SocialNetwork> socialNetworks)
     {
-        SocialNetworks = socialNetworks;
+        _socialNetworks = socialNetworks.ToList();
 
         return this;
     }
 
-    public Volunteer SetRequisites(ValueObjectList<Requisite> requisites)
+    public Volunteer SetRequisites(IEnumerable<Requisite> requisites)
     {
-        Requisites = requisites;
+        _requisites = requisites.ToList();
 
         return this;
     }
@@ -120,7 +124,7 @@ public class Volunteer
         {
             return movePosition.Error;
         }
-        
+
         pet.SetPosition(newPosition);
 
         return Result.Success<Error>();

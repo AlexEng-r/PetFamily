@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PetFamily.API.Controllers.Volunteer.Requests;
 using PetFamily.API.Extensions;
 using PetFamily.API.Processors;
@@ -24,9 +23,10 @@ public class VolunteerController
     {
         var query = request.ToQuery();
 
-        var response = await handler.Handle(query, cancellationToken);
-
-        return Ok(response);
+        var result = await handler.Handle(query, cancellationToken);
+        return result.IsFailure
+            ? result.Error.ToResponse()
+            : Ok(result.Value);
     }
 
     [HttpPost]
@@ -45,7 +45,6 @@ public class VolunteerController
     public async Task<ActionResult> Update([FromRoute] Guid id,
         [FromBody] UpdateMainInfoRequest request,
         [FromServices] UpdateMainInfoHandler updateMainInfoHandler,
-        [FromServices] IValidator<UpdateMainInfoCommand> validator,
         CancellationToken cancellationToken)
     {
         var command = request.ToCommand(id);
@@ -61,7 +60,6 @@ public class VolunteerController
     public async Task<ActionResult> UpdateSocialNetworks([FromRoute] Guid id,
         [FromBody] UpdateSocialNetworkRequest request,
         [FromServices] UpdateSocialNetworkHandler updateSocialNetworkHandler,
-        [FromServices] IValidator<UpdateSocialNetworkCommand> validator,
         CancellationToken cancellationToken)
     {
         var command = request.ToCommand(id);
@@ -77,7 +75,6 @@ public class VolunteerController
     public async Task<ActionResult> UpdateRequisites([FromRoute] Guid id,
         [FromBody] UpdateRequisiteRequest request,
         [FromServices] UpdateRequisiteHandler updateRequisiteHandler,
-        [FromServices] IValidator<UpdateRequisiteCommand> validator,
         CancellationToken cancellationToken)
     {
         var command = request.ToCommand(id);
@@ -92,7 +89,6 @@ public class VolunteerController
     [HttpDelete("{id:guid}")]
     public async Task<ActionResult> Delete([FromRoute] Guid id,
         [FromServices] DeleteVolunteerHandler deleteVolunteerHandler,
-        [FromServices] IValidator<DeleteVolunteerCommand> validator,
         CancellationToken cancellationToken)
     {
         var request = new DeleteVolunteerCommand(id);

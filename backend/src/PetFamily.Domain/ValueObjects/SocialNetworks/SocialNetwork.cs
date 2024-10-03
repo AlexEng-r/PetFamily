@@ -1,4 +1,5 @@
-﻿using CSharpFunctionalExtensions;
+﻿using System.Text.Json.Serialization;
+using CSharpFunctionalExtensions;
 using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.ValueObjects.SocialNetworks;
@@ -9,6 +10,7 @@ public record SocialNetwork
 
     public string Link { get; }
 
+    [JsonConstructor]
     private SocialNetwork(string name, string link)
     {
         Name = name;

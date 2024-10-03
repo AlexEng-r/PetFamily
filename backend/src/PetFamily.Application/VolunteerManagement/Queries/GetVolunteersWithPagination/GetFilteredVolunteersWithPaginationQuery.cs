@@ -1,7 +1,11 @@
 using PetFamily.Application.Abstractions;
-using PetFamily.Application.Dtos;
 
 namespace PetFamily.Application.VolunteerManagement.Queries.GetVolunteersWithPagination;
 
-public record GetFilteredVolunteersWithPaginationQuery(FullNameDto? FullName,int Page, int PageSize)
+public record GetFilteredVolunteersWithPaginationQuery(
+    int? Experience,
+    string? SortBy,
+    string? SortDirection,
+    int Page,
+    int PageSize)
     : IQuery;

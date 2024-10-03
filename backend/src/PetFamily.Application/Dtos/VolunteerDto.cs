@@ -2,17 +2,17 @@
 
 public class VolunteerDto
 {
-    public Guid Id { get; private set; }
+    public Guid Id { get; set; }
 
-    public FullNameDto FullName { get; private set; }
+    public FullNameDto FullName { get; set; }
 
-    public string Description { get; private set; } = string.Empty;
+    public string Description { get; set; }
 
-    public int Experience { get; private set; }
+    public int Experience { get; set; }
 
-    public string Phone { get; private set; } = string.Empty;
+    public string Phone { get; set; } 
 
-    public IReadOnlyList<SocialNetworksDto> SocialNetworks { get; private set; }
+    public IReadOnlyList<SocialNetworksDto> SocialNetworks { get; set; }
 
-    public IReadOnlyList<RequisiteDto> Requisites { get; private set; }
+    public IReadOnlyList<RequisiteDto> Requisites { get; set; }
 }
