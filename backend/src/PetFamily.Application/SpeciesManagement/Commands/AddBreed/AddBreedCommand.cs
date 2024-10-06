@@ -1,6 +1,6 @@
-﻿namespace PetFamily.Application.SpeciesManagement.Commands.AddBreed;
+﻿using PetFamily.Application.Abstractions;
 
-public class AddBreedCommand
-{
-    
-}
+namespace PetFamily.Application.SpeciesManagement.Commands.AddBreed;
+
+public record AddBreedCommand(Guid SpeciesId, string BreedName)
+    : ICommand;

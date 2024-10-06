@@ -13,7 +13,7 @@ using PetFamily.Infrastructure.DatabaseContexts;
 namespace PetFamily.Infrastructure.Migrations
 {
     [DbContext(typeof(WriteDbContext))]
-    [Migration("20240930193437_Initial")]
+    [Migration("20241006201643_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -196,16 +196,6 @@ namespace PetFamily.Infrastructure.Migrations
                                 .HasColumnName("animal_type");
                         });
 
-                    b.ComplexProperty<Dictionary<string, object>>("Breed", "PetFamily.Domain.VolunteerManagement.Pets.Pet.Breed#CanBeEmptyString", b1 =>
-                        {
-                            b1.IsRequired();
-
-                            b1.Property<string>("Value")
-                                .HasMaxLength(50)
-                                .HasColumnType("character varying(50)")
-                                .HasColumnName("breed");
-                        });
-
                     b.ComplexProperty<Dictionary<string, object>>("Color", "PetFamily.Domain.VolunteerManagement.Pets.Pet.Color#NotEmptyString", b1 =>
                         {
                             b1.IsRequired();
@@ -252,7 +242,7 @@ namespace PetFamily.Infrastructure.Migrations
                         {
                             b1.IsRequired();
 
-                            b1.Property<string>("Value")
+                            b1.Property<string>("Phone")
                                 .IsRequired()
                                 .HasMaxLength(20)
                                 .HasColumnType("character varying(20)")
@@ -351,7 +341,7 @@ namespace PetFamily.Infrastructure.Migrations
                         {
                             b1.IsRequired();
 
-                            b1.Property<string>("Value")
+                            b1.Property<string>("Phone")
                                 .IsRequired()
                                 .HasMaxLength(20)
                                 .HasColumnType("character varying(20)")

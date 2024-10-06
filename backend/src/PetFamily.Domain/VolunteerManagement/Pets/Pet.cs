@@ -5,10 +5,10 @@ using PetFamily.Domain.ValueObjects.Addresses;
 using PetFamily.Domain.ValueObjects.Contacts;
 using PetFamily.Domain.ValueObjects.Positions;
 using PetFamily.Domain.ValueObjects.Requisites;
-using PetFamily.Domain.ValueObjects.SpeciesDetails;
 using PetFamily.Domain.ValueObjects.String;
 using PetFamily.Domain.VolunteerManagement.Enums;
 using PetFamily.Domain.VolunteerManagement.PetPhotos;
+using PetFamily.Domain.VolunteerManagement.Pets.SpeciesDetails;
 
 namespace PetFamily.Domain.VolunteerManagement.Pets;
 
@@ -20,8 +20,6 @@ public class Pet
     public NotEmptyString AnimalType { get; private set; }
 
     public CanBeEmptyString Description { get; private set; }
-
-    public CanBeEmptyString Breed { get; private set; }
 
     public NotEmptyString Color { get; private set; }
 
@@ -68,7 +66,6 @@ public class Pet
         NotEmptyString nickName,
         NotEmptyString animalType,
         CanBeEmptyString description,
-        CanBeEmptyString breed,
         NotEmptyString color,
         CanBeEmptyString healthInformation,
         Address address,
@@ -89,7 +86,7 @@ public class Pet
         UpdateMainInfo(nickName,
             animalType,
             description,
-            breed, color,
+            color,
             healthInformation,
             address,
             weight,
@@ -106,7 +103,6 @@ public class Pet
     public Pet UpdateMainInfo(NotEmptyString nickName,
         NotEmptyString animalType,
         CanBeEmptyString description,
-        CanBeEmptyString breed,
         NotEmptyString color,
         CanBeEmptyString healthInformation,
         Address address,
@@ -123,7 +119,6 @@ public class Pet
         NickName = nickName;
         AnimalType = animalType;
         Description = description;
-        Breed = breed;
         Color = color;
         HealthInformation = healthInformation;
         Address = address;

@@ -4,6 +4,7 @@ using Minio;
 using PetFamily.Application.Database;
 using PetFamily.Application.MessageQueues;
 using PetFamily.Application.Providers;
+using PetFamily.Application.Repositories.Specieses;
 using PetFamily.Application.Repositories.Volunteers;
 using PetFamily.Application.Services;
 using PetFamily.Infrastructure.BackgroundServices;
@@ -49,6 +50,7 @@ public static class DependencyInjection
         IConfiguration configuration)
     {
         services.AddScoped<IVolunteersRepository, VolunteersRepository>();
+        services.AddScoped<ISpeciesRepository, SpeciesRepository>();
 
         return services;
     }

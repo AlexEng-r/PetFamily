@@ -46,13 +46,6 @@ public class PetConfiguration
                 .HasColumnName("description");
         });
 
-        builder.ComplexProperty(x => x.Breed, b =>
-        {
-            b.Property(x => x.Value)
-                .HasMaxLength(ConfigurationConstraint.MIN50_TEXT_LENGTH)
-                .HasColumnName("breed");
-        });
-
         builder.ComplexProperty(x => x.Color, c =>
         {
             c.Property(x => x.Value)

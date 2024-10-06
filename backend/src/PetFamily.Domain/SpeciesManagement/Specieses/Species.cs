@@ -18,9 +18,16 @@ public class Species
     {
     }
 
-    private Species(SpeciesId id, NotEmptyString name)
+    public Species(SpeciesId id, NotEmptyString name)
         : base(id)
     {
         Name = name;
+    }
+
+    public Species AddBreed(Breed breed)
+    {
+        _breeds.Add(breed);
+
+        return this;
     }
 }

@@ -80,7 +80,6 @@ namespace PetFamily.Infrastructure.Migrations
                     flat = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     house = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     animal_type = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    breed = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     color = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     description = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true),
                     health_information = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),

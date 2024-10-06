@@ -15,7 +15,6 @@ public static class PetBuilder
         var nickName = NotEmptyString.Create("TestNick").Value;
         var animalType = NotEmptyString.Create("TestAnimalType").Value;
         var descriptionPet = new CanBeEmptyString("TestDescription");
-        var breed = new CanBeEmptyString("breed");
         var color = NotEmptyString.Create("TestColor").Value;
         var healthInformation = new CanBeEmptyString("TestHealthInformation");
         var address = Address.Create("TestAddress", "TestAddress", "TestAddress").Value;
@@ -26,7 +25,6 @@ public static class PetBuilder
             nickName,
             animalType,
             descriptionPet,
-            breed,
             color,
             healthInformation,
             address,

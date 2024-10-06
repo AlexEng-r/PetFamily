@@ -1,5 +1,4 @@
-﻿using System.Windows.Input;
-using PetFamily.Application.Dtos;
+﻿using PetFamily.Application.Dtos;
 using ICommand = PetFamily.Application.Abstractions.ICommand;
 
 namespace PetFamily.Application.VolunteerManagement.Commands.AddPetPhoto;

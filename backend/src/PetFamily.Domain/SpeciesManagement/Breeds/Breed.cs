@@ -13,7 +13,7 @@ public class Breed
     {
     }
 
-    private Breed(BreedId id, NotEmptyString name)
+    public Breed(BreedId id, NotEmptyString name)
         : base(id)
     {
         Name = name;

@@ -193,16 +193,6 @@ namespace PetFamily.Infrastructure.Migrations
                                 .HasColumnName("animal_type");
                         });
 
-                    b.ComplexProperty<Dictionary<string, object>>("Breed", "PetFamily.Domain.VolunteerManagement.Pets.Pet.Breed#CanBeEmptyString", b1 =>
-                        {
-                            b1.IsRequired();
-
-                            b1.Property<string>("Value")
-                                .HasMaxLength(50)
-                                .HasColumnType("character varying(50)")
-                                .HasColumnName("breed");
-                        });
-
                     b.ComplexProperty<Dictionary<string, object>>("Color", "PetFamily.Domain.VolunteerManagement.Pets.Pet.Color#NotEmptyString", b1 =>
                         {
                             b1.IsRequired();

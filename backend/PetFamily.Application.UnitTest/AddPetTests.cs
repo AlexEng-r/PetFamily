@@ -6,10 +6,12 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using PetFamily.Application.Database;
 using PetFamily.Application.Dtos;
+using PetFamily.Application.Repositories.Specieses;
 using PetFamily.Application.Repositories.Volunteers;
 using PetFamily.Application.VolunteerManagement.Commands.AddPets;
 using PetFamily.Base.Test.Builder;
 using PetFamily.Domain.Shared;
+using PetFamily.Domain.SpeciesManagement.Specieses;
 using PetFamily.Domain.VolunteerManagement.Volunteers;
 
 namespace PetFamily.Application.UnitTest;
@@ -20,6 +22,7 @@ public class AddPetTests
     private readonly Mock<IUnitOfWork> _unitOfWorkMock = new();
     private readonly Mock<IValidator<AddPetCommand>> _validatorMock = new();
     private readonly Mock<ILogger<AddPetHandler>> _loggerMock = new();
+    private readonly Mock<ISpeciesRepository> _speciesRepositoryMock = new();
 
     [Fact]
     public async Task AddPetHandler_ShouldAddPet_WhenCommandIsValid()
@@ -31,12 +34,14 @@ public class AddPetTests
         var addedPet = PetBuilder.Create();
         var addressDto = new AddressDto(addedPet.Address.City, addedPet.Address.House, addedPet.Address.Flat);
         var requisiteDto = addedPet.Requisites.Select(x => new RequisiteDto(x.Name, x.Description)).ToList();
+        var species = SpeciesBuilder.GetSpeciesWithBreeds(1);
         var command = new AddPetCommand(
             volunteer.Id,
             addedPet.NickName.Value,
             addedPet.AnimalType.Value,
             addedPet.Description.Value,
-            addedPet.Breed.Value,
+            species.Id,
+            species.Breeds[0].Id.Value,
             addedPet.Color.Value,
             addedPet.HealthInformation.Value,
             addressDto,
@@ -51,6 +56,9 @@ public class AddPetTests
 
         _volunteerRepositoryMock.Setup(v => v.GetById(volunteer.Id, cancellationToken))
             .ReturnsAsync(Result.Success<Volunteer, Error>(volunteer));
+        
+        _speciesRepositoryMock.Setup(v => v.GetById(command.SpeciesId!, cancellationToken))
+            .ReturnsAsync(Result.Success<Species, Error>(species));
 
         _validatorMock.Setup(v => v.ValidateAsync(command, cancellationToken))
             .ReturnsAsync(new ValidationResult());
@@ -62,7 +70,8 @@ public class AddPetTests
             _volunteerRepositoryMock.Object,
             _unitOfWorkMock.Object,
             _loggerMock.Object,
-            _validatorMock.Object);
+            _validatorMock.Object,
+            _speciesRepositoryMock.Object);
 
         // act
         var result = await handler.Handle(command, cancellationToken);
@@ -87,7 +96,8 @@ public class AddPetTests
             addedPet.NickName.Value,
             addedPet.AnimalType.Value,
             addedPet.Description.Value,
-            addedPet.Breed.Value,
+            Guid.NewGuid(),
+            Guid.NewGuid(),
             addedPet.Color.Value,
             addedPet.HealthInformation.Value,
             addressDto,
@@ -114,7 +124,8 @@ public class AddPetTests
             _volunteerRepositoryMock.Object,
             _unitOfWorkMock.Object,
             _loggerMock.Object,
-            _validatorMock.Object);
+            _validatorMock.Object,
+            _speciesRepositoryMock.Object);
 
         // act
         var result = await handler.Handle(command, cancellationToken);
