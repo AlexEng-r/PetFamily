@@ -10,6 +10,7 @@ using PetFamily.Application.VolunteerManagement.Commands.Delete;
 using PetFamily.Application.VolunteerManagement.Commands.UpdateMainInfo;
 using PetFamily.Application.VolunteerManagement.Commands.UpdateRequisites;
 using PetFamily.Application.VolunteerManagement.Commands.UpdateSocialNetworks;
+using PetFamily.Application.VolunteerManagement.Queries.GetVolunteerById;
 using PetFamily.Application.VolunteerManagement.Queries.GetVolunteersWithPagination;
 
 namespace PetFamily.API.Controllers.Volunteer;
@@ -24,6 +25,19 @@ public class VolunteerController
         var query = request.ToQuery();
 
         var result = await handler.Handle(query, cancellationToken);
+        return result.IsFailure
+            ? result.Error.ToResponse()
+            : Ok(result.Value);
+    }
+
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetById([FromRoute] Guid id,
+        [FromServices] GetVolunteerByIdHandler handler,
+        CancellationToken cancellationToken)
+    {
+        var query = new GetVolunteerByIdQuery(id);
+        var result = await handler.Handle(query, cancellationToken);
+
         return result.IsFailure
             ? result.Error.ToResponse()
             : Ok(result.Value);
