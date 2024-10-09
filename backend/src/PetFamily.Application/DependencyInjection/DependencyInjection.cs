@@ -38,7 +38,7 @@ public static class DependencyInjection
     private static IServiceCollection AddQueryHandlers(this IServiceCollection services)
         => services.Scan(scan => scan
             .FromAssemblies(typeof(DependencyInjection).Assembly)
-            .AddClasses(classes => classes.AssignableTo(typeof(IQueryHandler<,>)))
+            .AddClasses(classes => classes.AssignableToAny(typeof(IQueryHandler<,>), typeof(IQueryHandler<>)))
             .AsSelfWithInterfaces()
             .WithScopedLifetime());
 }

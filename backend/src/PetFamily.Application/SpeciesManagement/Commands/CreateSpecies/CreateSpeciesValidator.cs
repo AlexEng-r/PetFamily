@@ -2,7 +2,7 @@
 using PetFamily.Application.Validators;
 using PetFamily.Domain.ValueObjects.String;
 
-namespace PetFamily.Application.SpeciesManagement.Commands.Create;
+namespace PetFamily.Application.SpeciesManagement.Commands.CreateSpecies;
 
 public class CreateSpeciesValidator
     : AbstractValidator<CreateSpeciesCommand>

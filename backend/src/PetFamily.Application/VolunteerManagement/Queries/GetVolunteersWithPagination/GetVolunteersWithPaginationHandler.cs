@@ -134,7 +134,6 @@ public class GetVolunteersWithPaginationHandlerDapper
     }
 }
 
-
 public static class SqlExtension
 {
     public static void ApplySorting(
@@ -142,20 +141,18 @@ public static class SqlExtension
         string? sortBy,
         string? sortDirection)
     {
-
         var sortByValid = sortBy ?? "id";
         var sortDirectionValid = sortDirection ?? "asc";
 
         builder.Append($" ORDER BY {sortByValid} {sortDirectionValid}");
     }
-    
+
     public static void ApplyPagination(
         this StringBuilder builder,
         DynamicParameters parameters,
         int page,
         int pageSize)
     {
-          
         parameters.Add("@PageSize", pageSize);
         parameters.Add("@Offset", (page - 1) * pageSize);
 

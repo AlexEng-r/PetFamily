@@ -30,6 +30,10 @@ public class SpeciesConfiguration
         builder.HasMany(x => x.Breeds)
             .WithOne()
             .HasForeignKey("species_id")
-            .OnDelete(DeleteBehavior.NoAction);
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Property<bool>("_isDeleted")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasColumnName("is_Deleted");
     }
 }

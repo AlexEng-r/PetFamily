@@ -50,4 +50,16 @@ public class SpeciesRepository
 
         return species;
     }
+
+    public Task Delete(Species species, CancellationToken cancellationToken = default)
+    {
+        species.Delete();
+
+        foreach (var breed in species.Breeds)
+        {
+            breed.Delete();
+        }
+
+        return Task.CompletedTask;
+    }
 }

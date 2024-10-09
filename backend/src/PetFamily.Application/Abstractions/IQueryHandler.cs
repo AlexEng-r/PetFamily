@@ -10,3 +10,8 @@ public interface IQueryHandler<in TQuery, TResponse>
     
     Task<Result<TResponse, ErrorList>> Handle(TQuery command, CancellationToken cancellationToken);
 }
+
+public interface IQueryHandler<TResponse>
+{
+    Task<Result<TResponse, ErrorList>> Handle(CancellationToken cancellationToken);
+}

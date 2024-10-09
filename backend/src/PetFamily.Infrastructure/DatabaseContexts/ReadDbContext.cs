@@ -17,6 +17,11 @@ public class ReadDbContext
     }
 
     public IQueryable<VolunteerDto> Volunteers => Set<VolunteerDto>();
+    public IQueryable<SpeciesDto> Species => Set<SpeciesDto>();
+    
+    public IQueryable<PetDto> Pets => Set<PetDto>();
+    
+    public IQueryable<BreedDto> Breeds => Set<BreedDto>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

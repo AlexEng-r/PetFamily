@@ -1,4 +1,4 @@
-﻿using PetFamily.Application.SpeciesManagement.Commands.Create;
+﻿using PetFamily.Application.SpeciesManagement.Commands.CreateSpecies;
 
 namespace PetFamily.API.Controllers.Species.Request;
 

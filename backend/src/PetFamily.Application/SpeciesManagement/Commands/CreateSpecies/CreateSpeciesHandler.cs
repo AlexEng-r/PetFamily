@@ -7,7 +7,7 @@ using PetFamily.Domain.Shared;
 using PetFamily.Domain.SpeciesManagement.Specieses;
 using PetFamily.Domain.ValueObjects.String;
 
-namespace PetFamily.Application.SpeciesManagement.Commands.Create;
+namespace PetFamily.Application.SpeciesManagement.Commands.CreateSpecies;
 
 public class CreateSpeciesHandler
     : ICommandHandler<CreateSpeciesCommand, Guid>
