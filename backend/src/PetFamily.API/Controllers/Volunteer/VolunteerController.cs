@@ -8,6 +8,7 @@ using PetFamily.Application.VolunteerManagement.Commands.ChangePetPosition;
 using PetFamily.Application.VolunteerManagement.Commands.Create;
 using PetFamily.Application.VolunteerManagement.Commands.Delete;
 using PetFamily.Application.VolunteerManagement.Commands.UpdateMainInfo;
+using PetFamily.Application.VolunteerManagement.Commands.UpdatePet;
 using PetFamily.Application.VolunteerManagement.Commands.UpdateRequisites;
 using PetFamily.Application.VolunteerManagement.Commands.UpdateSocialNetworks;
 using PetFamily.Application.VolunteerManagement.Queries.GetVolunteerById;
@@ -159,6 +160,23 @@ public class VolunteerController
         var command = request.ToCommand(id, petId);
 
         var result = await changePetPositionHandler.Handle(command, cancellationToken);
+
+        return result.IsFailure
+            ? result.Error.ToResponse()
+            : Ok(result.Value);
+    }
+
+    [HttpPut("{id:guid}/pet/{petId:guid}/position/updatePet")]
+    public async Task<IActionResult> UpdatePet(
+        [FromRoute] Guid id,
+        [FromRoute] Guid petId,
+        [FromBody] UpdatePetRequest request,
+        [FromServices] UpdatePetHandler updatePetHandler,
+        CancellationToken cancellationToken)
+    {
+        var command = request.ToCommand(id, petId);
+
+        var result = await updatePetHandler.Handle(command, cancellationToken);
 
         return result.IsFailure
             ? result.Error.ToResponse()
