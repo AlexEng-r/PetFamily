@@ -1,7 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
+using PetFamily.Application.Dtos;
 using PetFamily.Domain.Shared;
 
-namespace PetFamily.Application.Providers;
+namespace PetFamily.Application.Providers.File;
 
 public interface IFileProvider
 {
@@ -11,6 +12,6 @@ public interface IFileProvider
     Task<UnitResult<Error>> DeleteFileAsync(FileInfo fileInfo,
         CancellationToken cancellationToken = default);
 
-    Task<Result<IReadOnlyList<string>, Error>> UploadFilesAsync(IEnumerable<FileData> files,
+    Task<Result<IReadOnlyList<UploadFileProviderOutputDto>, Error>> UploadFilesAsync(IEnumerable<FileData> files,
         CancellationToken cancellationToken = default);
 }

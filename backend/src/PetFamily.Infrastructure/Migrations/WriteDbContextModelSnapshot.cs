@@ -29,7 +29,7 @@ namespace PetFamily.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<bool>("_isDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean")
                         .HasColumnName("is_Deleted");
 
@@ -63,7 +63,7 @@ namespace PetFamily.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<bool>("_isDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean")
                         .HasColumnName("is_Deleted");
 
@@ -89,6 +89,16 @@ namespace PetFamily.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid")
                         .HasColumnName("id");
+
+                    b.Property<string>("BucketName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("bucket_name");
+
+                    b.Property<string>("HashCode")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("hash_code");
 
                     b.Property<bool>("IsMain")
                         .HasColumnType("boolean")
@@ -136,6 +146,10 @@ namespace PetFamily.Infrastructure.Migrations
                         .HasColumnType("double precision")
                         .HasColumnName("height");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_Deleted");
+
                     b.Property<bool>("IsSterialized")
                         .HasColumnType("boolean")
                         .HasColumnName("is_sterialized");
@@ -158,10 +172,6 @@ namespace PetFamily.Infrastructure.Migrations
                     b.Property<double?>("Weight")
                         .HasColumnType("double precision")
                         .HasColumnName("weight");
-
-                    b.Property<bool>("_isDeleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_Deleted");
 
                     b.Property<Guid?>("volunteer_id")
                         .HasColumnType("uuid")
@@ -295,6 +305,10 @@ namespace PetFamily.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("experience");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_Deleted");
+
                     b.Property<string>("Requisites")
                         .IsRequired()
                         .HasColumnType("jsonb")
@@ -304,10 +318,6 @@ namespace PetFamily.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("jsonb")
                         .HasColumnName("social_networks");
-
-                    b.Property<bool>("_isDeleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_Deleted");
 
                     b.ComplexProperty<Dictionary<string, object>>("Description", "PetFamily.Domain.VolunteerManagement.Volunteers.Volunteer.Description#NotEmptyString", b1 =>
                         {

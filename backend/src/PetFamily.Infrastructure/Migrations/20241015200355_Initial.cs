@@ -108,7 +108,9 @@ namespace PetFamily.Infrastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
+                    hash_code = table.Column<string>(type: "text", nullable: false),
                     is_main = table.Column<bool>(type: "boolean", nullable: false),
+                    bucket_name = table.Column<string>(type: "text", nullable: false),
                     pet_id = table.Column<Guid>(type: "uuid", nullable: true),
                     path = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false)
                 },

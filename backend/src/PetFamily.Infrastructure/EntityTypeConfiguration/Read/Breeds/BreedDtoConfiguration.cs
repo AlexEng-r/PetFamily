@@ -12,8 +12,11 @@ public class BreedDtoConfiguration
         builder.ToTable("breeds");
 
         builder.HasKey(x => x.Id);
-        
+
         builder.Property(x => x.Name).HasColumnName("name");
         builder.Property(x => x.SpeciesId).HasColumnName("species_id");
+        builder.Property(x => x.IsDeleted).HasColumnName("is_Deleted");
+
+        builder.HasQueryFilter(x => !x.IsDeleted);
     }
 }

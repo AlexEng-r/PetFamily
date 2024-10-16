@@ -14,5 +14,8 @@ public class SpeciesDtoConfiguration
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Name).HasColumnName("name");
+        builder.Property(x => x.IsDeleted).HasColumnName("is_Deleted");
+
+        builder.HasQueryFilter(x => !x.IsDeleted);
     }
 }

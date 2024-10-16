@@ -41,7 +41,7 @@ public class Volunteer
 
     public int PetsOnTreatment => Pets.Count(x => x.Status == StatusType.NeedHelp);
 
-    private bool _isDeleted;
+    public bool IsDeleted {get; private set;}
 
     private Volunteer(VolunteerId id)
         : base(id)
@@ -182,7 +182,7 @@ public class Volunteer
         return Result.Success<Error>();
     }
 
-    public void Delete() => _isDeleted = true;
+    public void Delete() => IsDeleted = true;
 
-    public void Restore() => _isDeleted = false;
+    public void Restore() => IsDeleted = false;
 }

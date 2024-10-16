@@ -2,9 +2,10 @@
 using Microsoft.Extensions.Logging;
 using Minio;
 using Minio.DataModel.Args;
-using PetFamily.Application.Providers;
+using PetFamily.Application.Dtos;
+using PetFamily.Application.Providers.File;
 using PetFamily.Domain.Shared;
-using FileInfo = PetFamily.Application.Providers.FileInfo;
+using FileInfo = PetFamily.Application.Providers.File.FileInfo;
 
 namespace PetFamily.Infrastructure.Providers;
 
@@ -74,7 +75,7 @@ public class MinioProvider
         return Result.Success<Error>();
     }
 
-    public async Task<Result<IReadOnlyList<string>, Error>> UploadFilesAsync(IEnumerable<FileData> files,
+    public async Task<Result<IReadOnlyList<UploadFileProviderOutputDto>, Error>> UploadFilesAsync(IEnumerable<FileData> files,
         CancellationToken cancellationToken = default)
     {
         var semaphoreSlim = new SemaphoreSlim(MAX_LIMIT_THREADS);
@@ -129,7 +130,7 @@ public class MinioProvider
         }
     }
 
-    private async Task<Result<string, Error>> PutObject(
+    private async Task<Result<UploadFileProviderOutputDto, Error>> PutObject(
         FileData fileData,
         SemaphoreSlim semaphoreSlim,
         CancellationToken cancellationToken)
@@ -147,7 +148,7 @@ public class MinioProvider
             var response = await _minioClient
                 .PutObjectAsync(putObjectArgs, cancellationToken);
 
-            return response.ObjectName;
+            return new UploadFileProviderOutputDto(response.ObjectName, fileData.HashCode);
         }
         catch (Exception ex)
         {

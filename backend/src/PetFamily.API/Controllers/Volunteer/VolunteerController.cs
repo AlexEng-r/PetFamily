@@ -7,6 +7,7 @@ using PetFamily.Application.VolunteerManagement.Commands.AddPets;
 using PetFamily.Application.VolunteerManagement.Commands.ChangePetPosition;
 using PetFamily.Application.VolunteerManagement.Commands.Create;
 using PetFamily.Application.VolunteerManagement.Commands.Delete;
+using PetFamily.Application.VolunteerManagement.Commands.DeletePhoto;
 using PetFamily.Application.VolunteerManagement.Commands.UpdateMainInfo;
 using PetFamily.Application.VolunteerManagement.Commands.UpdatePet;
 using PetFamily.Application.VolunteerManagement.Commands.UpdateRequisites;
@@ -132,8 +133,9 @@ public class VolunteerController
     }
 
     [HttpPost("{id:guid}/pet/{petId:guid}/photo")]
-    public async Task<ActionResult> AddPhotoToPet([FromRoute] Guid id,
+    public async Task<IActionResult> AddPhotoToPet([FromRoute] Guid id,
         [FromRoute] Guid petId,
+        [FromQuery] AddPetPhotoRequest request,
         [FromForm] IFormFileCollection filesCollection,
         [FromServices] AddPetPhotoHandler addPetPhotoHandler,
         CancellationToken cancellationToken)
@@ -141,13 +143,28 @@ public class VolunteerController
         await using var fileProcessor = new FileProcessor();
         var files = fileProcessor.Process(filesCollection);
 
-        var command = new AddPetPhotoCommand(id, petId, files);
+        var command = request.ToCommand(id, petId, files);
 
         var result = await addPetPhotoHandler.Handle(command, cancellationToken);
 
         return result.IsFailure
             ? result.Error.ToResponse()
             : Ok(result.Value);
+    }
+
+    [HttpDelete("{id:guid}/pet/photos")]
+    public async Task<ActionResult> DeletePhotosFromPet(
+        [FromRoute] Guid id,
+        [FromForm] DeletePhotoFromPetRequest request,
+        [FromServices] DeletePhotoFromPetHandler handler,
+        CancellationToken cancellationToken
+    )
+    {
+        var result = await handler.Handle(request.ToCommand(id), cancellationToken);
+
+        return result.IsFailure
+            ? result.Error.ToResponse()
+            : Ok();
     }
 
     [HttpPut("{id:guid}/pet/{petId:guid}/position")]

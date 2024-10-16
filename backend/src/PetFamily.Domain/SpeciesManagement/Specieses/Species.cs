@@ -14,7 +14,7 @@ public class Species
 
     public IReadOnlyList<Breed> Breeds => _breeds.AsReadOnly();
 
-    private bool _isDeleted;
+    public bool IsDeleted {get; private set;}
 
     private Species(SpeciesId id)
         : base(id)
@@ -34,7 +34,7 @@ public class Species
         return this;
     }
 
-    public void Delete() => _isDeleted = true;
+    public void Delete() => IsDeleted = true;
 
-    public void Restore() => _isDeleted = false;
+    public void Restore() => IsDeleted = false;
 }

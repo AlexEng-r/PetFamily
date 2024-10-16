@@ -16,6 +16,7 @@ public class PetDtoConfiguration
 
         builder.Property(x => x.Requisites)
             .ValueObjectDtoCollectionJsonConversion();
+        builder.Property(x => x.IsDeleted).HasColumnName("is_Deleted");
 
         builder.ComplexProperty(x => x.Address, a =>
         {
@@ -30,5 +31,7 @@ public class PetDtoConfiguration
             a.Property(x => x.Flat)
                 .HasColumnName("flat");
         });
+
+        builder.HasQueryFilter(x => !x.IsDeleted);
     }
 }

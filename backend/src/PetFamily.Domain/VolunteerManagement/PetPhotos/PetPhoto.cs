@@ -8,17 +8,23 @@ public class PetPhoto
 {
     public NotEmptyString Path { get; private set; }
 
+    public string HashCode { get; private set; }
+
     public bool IsMain { get; private set; }
+    
+    public string BucketName { get; private set; }
 
     private PetPhoto(PetPhotoId id)
         : base(id)
     {
     }
 
-    public PetPhoto(PetPhotoId id, NotEmptyString path, bool isMain)
+    public PetPhoto(PetPhotoId id, NotEmptyString path, string hashCode, bool isMain, string bucketName)
         : base(id)
     {
         Path = path;
+        HashCode = hashCode;
         IsMain = isMain;
+        BucketName = bucketName;
     }
 }

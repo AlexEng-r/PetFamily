@@ -55,7 +55,7 @@ public class Pet
 
     public IReadOnlyList<PetPhoto> PetPhotos => _petPhotos.AsReadOnly();
 
-    private bool _isDeleted;
+    public bool IsDeleted;
 
     private Pet(PetId id)
         : base(id)
@@ -149,9 +149,9 @@ public class Pet
         return this;
     }
 
-    public void Delete() => _isDeleted = true;
+    public void Delete() => IsDeleted = true;
 
-    public void Restore() => _isDeleted = false;
+    public void Restore() => IsDeleted = false;
 
     public UnitResult<Error> MoveToForward()
     {

@@ -9,7 +9,7 @@ public class Breed
 {
     public NotEmptyString Name { get; }
 
-    private bool _isDeleted;
+    public bool IsDeleted { get; private set; }
 
     private Breed(BreedId id)
         : base(id)
@@ -22,7 +22,7 @@ public class Breed
         Name = name;
     }
 
-    public void Delete() => _isDeleted = true;
+    public void Delete() => IsDeleted = true;
 
-    public void Restore() => _isDeleted = false;
+    public void Restore() => IsDeleted = false;
 }

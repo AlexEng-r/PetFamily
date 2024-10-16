@@ -10,9 +10,11 @@ public class VolunteerDto
 
     public int Experience { get; set; }
 
-    public string Phone { get; set; } 
+    public string Phone { get; set; }
 
     public IReadOnlyList<SocialNetworksDto> SocialNetworks { get; set; }
 
     public IReadOnlyList<RequisiteDto> Requisites { get; set; }
+
+    public bool IsDeleted { get; set; }
 }

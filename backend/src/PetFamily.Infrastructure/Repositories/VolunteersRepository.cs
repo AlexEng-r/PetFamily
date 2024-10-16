@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using PetFamily.Application.Repositories.Volunteers;
 using PetFamily.Domain.Shared;
 using PetFamily.Domain.ValueObjects.Contacts;
+using PetFamily.Domain.VolunteerManagement.PetPhotos;
 using PetFamily.Domain.VolunteerManagement.Volunteers;
 using PetFamily.Infrastructure.DatabaseContexts;
 
@@ -41,6 +42,7 @@ public class VolunteersRepository
         var volunteer = await _dbContext.Volunteers
             .Where(x => x.Id == volunteerId)
             .Include(x => x.Pets)
+            .ThenInclude(x => x.PetPhotos)
             .FirstOrDefaultAsync(cancellationToken);
 
         if (volunteer == null)
@@ -62,4 +64,8 @@ public class VolunteersRepository
 
         return Task.CompletedTask;
     }
+
+    public Task DeletePhotoFromPet(PetPhoto petPhoto, CancellationToken cancellationToken = default)
+        => Task.FromResult(_dbContext.Remove(petPhoto));
+    
 }

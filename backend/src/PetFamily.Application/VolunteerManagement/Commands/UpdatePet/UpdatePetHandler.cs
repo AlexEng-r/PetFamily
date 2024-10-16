@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using PetFamily.Application.Abstractions;
+using PetFamily.Application.Database;
 using PetFamily.Application.Extensions;
 using PetFamily.Application.Repositories.Specieses;
 using PetFamily.Application.Repositories.Volunteers;
@@ -21,14 +22,17 @@ public class UpdatePetHandler
     private readonly IValidator<UpdatePetCommand> _validator;
     private readonly IVolunteersRepository _volunteersRepository;
     private readonly ISpeciesRepository _speciesRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
     public UpdatePetHandler(IValidator<UpdatePetCommand> validator,
         IVolunteersRepository volunteersRepository,
-        ISpeciesRepository speciesRepository)
+        ISpeciesRepository speciesRepository,
+        IUnitOfWork unitOfWork)
     {
         _validator = validator;
         _volunteersRepository = volunteersRepository;
         _speciesRepository = speciesRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Result<Guid, ErrorList>> Handle(UpdatePetCommand command, CancellationToken cancellationToken)
@@ -69,7 +73,11 @@ public class UpdatePetHandler
             }
         }
 
-        return UpdatePet(pet, command, isSpeciesAndBreedNotNull);
+        var result = UpdatePet(pet, command, isSpeciesAndBreedNotNull);
+
+        await _unitOfWork.SaveChanges(cancellationToken);
+
+        return result;
     }
 
     private Guid UpdatePet(Pet pet, UpdatePetCommand command, bool isSpeciesAndBreedNotNull)

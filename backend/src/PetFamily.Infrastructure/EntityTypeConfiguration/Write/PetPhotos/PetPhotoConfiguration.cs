@@ -25,6 +25,8 @@ public class PetPhotoConfiguration
                 .HasMaxLength(ConfigurationConstraint.AVERAGE_TEXT_LENGTH)
                 .HasColumnName("path");
         });
+        
+        builder.Property(x => x.HashCode).IsRequired();
 
         builder.Property(x => x.IsMain).IsRequired();
     }

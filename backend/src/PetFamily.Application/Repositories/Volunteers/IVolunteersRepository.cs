@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using PetFamily.Domain.Shared;
 using PetFamily.Domain.ValueObjects.Contacts;
+using PetFamily.Domain.VolunteerManagement.PetPhotos;
 using PetFamily.Domain.VolunteerManagement.Volunteers;
 
 namespace PetFamily.Application.Repositories.Volunteers;
@@ -14,4 +15,6 @@ public interface IVolunteersRepository
     Task<Result<Volunteer, Error>> GetById(VolunteerId volunteerId, CancellationToken cancellationToken = default);
 
     Task Delete(Volunteer volunteer, CancellationToken cancellationToken = default);
+
+    Task DeletePhotoFromPet(PetPhoto petPhoto, CancellationToken cancellationToken = default);
 }

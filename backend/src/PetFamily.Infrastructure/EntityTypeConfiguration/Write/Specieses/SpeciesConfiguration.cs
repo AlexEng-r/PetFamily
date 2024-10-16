@@ -32,8 +32,9 @@ public class SpeciesConfiguration
             .HasForeignKey("species_id")
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.Property<bool>("_isDeleted")
-            .UsePropertyAccessMode(PropertyAccessMode.Field)
+        builder.Property(x => x.IsDeleted)
             .HasColumnName("is_Deleted");
+
+        builder.HasQueryFilter(x => !x.IsDeleted);
     }
 }

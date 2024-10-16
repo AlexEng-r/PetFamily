@@ -1,21 +1,16 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using PetFamily.Application.MessageQueues;
 using PetFamily.Application.Services;
-using FileInfo = PetFamily.Application.Providers.FileInfo;
 
 namespace PetFamily.Infrastructure.BackgroundServices;
 
 public class FileCleanerBackgroundService
     : BackgroundService
 {
-    private readonly IMessageQueue<IEnumerable<FileInfo>> _messageQueue;
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
-    public FileCleanerBackgroundService(IMessageQueue<IEnumerable<FileInfo>> messageQueue,
-        IServiceScopeFactory serviceScopeFactory)
+    public FileCleanerBackgroundService(IServiceScopeFactory serviceScopeFactory)
     {
-        _messageQueue = messageQueue;
         _serviceScopeFactory = serviceScopeFactory;
     }
 

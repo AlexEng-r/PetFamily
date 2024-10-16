@@ -4,6 +4,8 @@ using Minio;
 using PetFamily.Application.Database;
 using PetFamily.Application.MessageQueues;
 using PetFamily.Application.Providers;
+using PetFamily.Application.Providers.Crypto;
+using PetFamily.Application.Providers.File;
 using PetFamily.Application.Repositories.Specieses;
 using PetFamily.Application.Repositories.Volunteers;
 using PetFamily.Application.Services;
@@ -15,7 +17,7 @@ using PetFamily.Infrastructure.Providers;
 using PetFamily.Infrastructure.Repositories;
 using PetFamily.Infrastructure.Services;
 using PetFamily.Infrastructure.SqlConnection;
-using FileInfo = PetFamily.Application.Providers.FileInfo;
+using FileInfo = PetFamily.Application.Providers.File.FileInfo;
 
 namespace PetFamily.Infrastructure.DependencyInjection;
 
@@ -33,6 +35,7 @@ public static class DependencyInjection
 
         services.AddScoped<IFileCleanerService, FileCleanerService>();
         services.AddSingleton<IMessageQueue<IEnumerable<FileInfo>>, InMemoryMessageQueue<IEnumerable<FileInfo>>>();
+        services.AddScoped<ICryptoProvider, CryptoProvider>();
 
         return services;
     }

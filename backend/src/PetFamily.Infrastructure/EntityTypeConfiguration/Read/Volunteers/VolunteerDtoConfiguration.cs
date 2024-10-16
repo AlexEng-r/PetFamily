@@ -32,14 +32,17 @@ public class VolunteerDtoConfiguration
                 .HasMaxLength(ConfigurationConstraint.MIN20_TEXT_LENGTH)
                 .HasColumnName("patronymic");
         });
-        
+
         builder.Property(x => x.Description).HasColumnName("description");
         builder.Property(x => x.Phone).HasColumnName("phone");
+        builder.Property(x => x.IsDeleted).HasColumnName("is_Deleted");
 
         builder.Property(x => x.SocialNetworks)
             .ValueObjectDtoCollectionJsonConversion();
 
         builder.Property(x => x.Requisites)
             .ValueObjectDtoCollectionJsonConversion();
+
+        builder.HasQueryFilter(x => !x.IsDeleted);
     }
 }

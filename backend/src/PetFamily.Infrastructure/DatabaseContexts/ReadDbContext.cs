@@ -18,10 +18,12 @@ public class ReadDbContext
 
     public IQueryable<VolunteerDto> Volunteers => Set<VolunteerDto>();
     public IQueryable<SpeciesDto> Species => Set<SpeciesDto>();
-    
+
     public IQueryable<PetDto> Pets => Set<PetDto>();
-    
+
     public IQueryable<BreedDto> Breeds => Set<BreedDto>();
+
+    public IQueryable<PetPhotoDto> PetPhotos => Set<PetPhotoDto>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -36,7 +38,7 @@ public class ReadDbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(WriteDbContext).Assembly,
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ReadDbContext).Assembly,
             type => type.FullName?.Contains("Configuration.Read") ?? false);
     }
 

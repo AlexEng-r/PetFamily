@@ -42,4 +42,6 @@ public class PetDto
     public int Position { get; set; }
 
     public DateTime DateCreated { get; set; }
+
+    public bool IsDeleted { get; set; }
 }
