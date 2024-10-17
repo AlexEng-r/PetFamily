@@ -6,6 +6,7 @@ using PetFamily.Domain.VolunteerManagement.Enums;
 namespace PetFamily.API.Controllers.Volunteer.Requests;
 
 public record UpdatePetRequest(
+    Guid PetId,
     string NickName,
     string AnimalType,
     string? Description,
@@ -24,9 +25,8 @@ public record UpdatePetRequest(
     IReadOnlyList<RequisiteDto> Requisites)
 {
     public UpdatePetCommand ToCommand(
-        Guid volunteerId,
-        Guid petId) => new(volunteerId,
-        petId,
+        Guid volunteerId) => new(volunteerId,
+        PetId,
         NickName,
         AnimalType,
         Description,

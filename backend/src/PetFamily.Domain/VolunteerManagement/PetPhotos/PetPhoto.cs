@@ -11,7 +11,7 @@ public class PetPhoto
     public string HashCode { get; private set; }
 
     public bool IsMain { get; private set; }
-    
+
     public string BucketName { get; private set; }
 
     private PetPhoto(PetPhotoId id)
@@ -27,4 +27,6 @@ public class PetPhoto
         IsMain = isMain;
         BucketName = bucketName;
     }
+
+    public void SetMain(bool main = true) => IsMain = main;
 }

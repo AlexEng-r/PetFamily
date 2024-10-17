@@ -149,6 +149,13 @@ public class Pet
         return this;
     }
 
+    public Pet SetStatus(StatusType status)
+    {
+        Status = status;
+
+        return this;
+    }
+
     public void Delete() => IsDeleted = true;
 
     public void Restore() => IsDeleted = false;
