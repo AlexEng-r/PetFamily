@@ -22,16 +22,16 @@ public class GetBreedsBySpeciesIdHandler
         _validator = validator;
     }
 
-    public async Task<Result<IReadOnlyList<BreedDto>, ErrorList>> Handle(GetBreedsBySpeciesIdQuery command,
+    public async Task<Result<IReadOnlyList<BreedDto>, ErrorList>> Handle(GetBreedsBySpeciesIdQuery query,
         CancellationToken cancellationToken)
     {
-        var validationResult = await _validator.ValidateAsync(command, cancellationToken);
+        var validationResult = await _validator.ValidateAsync(query, cancellationToken);
         if (!validationResult.IsValid)
         {
             return validationResult.ToErrorList();
         }
 
-        var breeds = await _readDbContext.Breeds.Where(x => x.SpeciesId == command.SpeciesId)
+        var breeds = await _readDbContext.Breeds.Where(x => x.SpeciesId == query.SpeciesId)
             .OrderBy(x => x.Name)
             .ToListAsync(cancellationToken);
 

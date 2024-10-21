@@ -22,20 +22,20 @@ public class GetVolunteerByIdHandler
         _validator = validator;
     }
 
-    public async Task<Result<VolunteerDto, ErrorList>> Handle(GetVolunteerByIdQuery command,
+    public async Task<Result<VolunteerDto, ErrorList>> Handle(GetVolunteerByIdQuery query,
         CancellationToken cancellationToken)
     {
-        var validationResult = await _validator.ValidateAsync(command, cancellationToken);
+        var validationResult = await _validator.ValidateAsync(query, cancellationToken);
         if (!validationResult.IsValid)
         {
             return validationResult.ToErrorList();
         }
 
         var volunteer = await _readDbContext.Volunteers
-            .FirstOrDefaultAsync(v => v.Id == command.VolunteerId, cancellationToken);
+            .FirstOrDefaultAsync(v => v.Id == query.VolunteerId, cancellationToken);
         if (volunteer == null)
         {
-            return Errors.General.NotFound(command.VolunteerId).ToErrorList();
+            return Errors.General.NotFound(query.VolunteerId).ToErrorList();
         }
 
         return volunteer;

@@ -8,7 +8,7 @@ public interface IQueryHandler<in TQuery, TResponse>
 {
     //Task<TResponse> Handle(TQuery command, CancellationToken cancellationToken);
     
-    Task<Result<TResponse, ErrorList>> Handle(TQuery command, CancellationToken cancellationToken);
+    Task<Result<TResponse, ErrorList>> Handle(TQuery query, CancellationToken cancellationToken);
 }
 
 public interface IQueryHandler<TResponse>

@@ -55,7 +55,7 @@ public class Pet
 
     public IReadOnlyList<PetPhoto> PetPhotos => _petPhotos.AsReadOnly();
 
-    public bool IsDeleted;
+    public bool IsDeleted { get; private set; }
 
     private Pet(PetId id)
         : base(id)

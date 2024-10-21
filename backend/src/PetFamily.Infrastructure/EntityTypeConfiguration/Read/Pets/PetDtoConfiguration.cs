@@ -32,6 +32,10 @@ public class PetDtoConfiguration
                 .HasColumnName("flat");
         });
 
+        builder.Property(x => x.Status)
+            .IsRequired()
+            .HasConversion<string>();
+
         builder.HasQueryFilter(x => !x.IsDeleted);
     }
 }

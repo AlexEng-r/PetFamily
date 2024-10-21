@@ -7,6 +7,8 @@ public class PetDto
 {
     public Guid Id { get; set; }
 
+    public Guid VolunteerId { get; set; }
+
     public string NickName { get; set; }
 
     public string AnimalType { get; set; }

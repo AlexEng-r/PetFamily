@@ -15,6 +15,8 @@ using PetFamily.Application.VolunteerManagement.Commands.UpdatePet;
 using PetFamily.Application.VolunteerManagement.Commands.UpdatePetStatus;
 using PetFamily.Application.VolunteerManagement.Commands.UpdateRequisites;
 using PetFamily.Application.VolunteerManagement.Commands.UpdateSocialNetworks;
+using PetFamily.Application.VolunteerManagement.Queries.GetPetById;
+using PetFamily.Application.VolunteerManagement.Queries.GetPetsWithPagination;
 using PetFamily.Application.VolunteerManagement.Queries.GetVolunteerById;
 using PetFamily.Application.VolunteerManagement.Queries.GetVolunteersWithPagination;
 
@@ -113,6 +115,32 @@ public class VolunteerController
         var request = new DeleteVolunteerCommand(id);
 
         var result = await deleteVolunteerHandler.Handle(request, cancellationToken);
+
+        return result.IsFailure
+            ? result.Error.ToResponse()
+            : Ok(result.Value);
+    }
+
+    [HttpGet("pets")]
+    public async Task<IActionResult> GetPetsWithPagination([FromQuery] GetPetsWithPaginationRequest request,
+        [FromServices] GetPetsWithPaginationHandler getPetsWithPaginationHandler,
+        CancellationToken cancellationToken)
+    {
+        var command = request.ToCommand();
+
+        var result = await getPetsWithPaginationHandler.Handle(command, cancellationToken);
+
+        return result.IsFailure
+            ? result.Error.ToResponse()
+            : Ok(result.Value);
+    }
+
+    [HttpGet("pet/{petId:guid}")]
+    public async Task<IActionResult> GetPetById([FromRoute] Guid petId,
+        [FromServices] GetPetByIdHandler getPetByIdHandler,
+        CancellationToken cancellationToken)
+    {
+        var result = await getPetByIdHandler.Handle(new GetPetByIdQuery(petId), cancellationToken);
 
         return result.IsFailure
             ? result.Error.ToResponse()
