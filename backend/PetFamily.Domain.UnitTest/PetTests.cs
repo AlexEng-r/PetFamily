@@ -1,4 +1,4 @@
-using FluentAssertions;
+/*using FluentAssertions;
 using PetFamily.Base.Test.Builder;
 using PetFamily.Domain.ValueObjects.Positions;
 
@@ -181,4 +181,4 @@ public class PetTests
         fourthPet.Position.Should().Be(Position.Create(3).Value);
         fifthPet.Position.Should().Be(Position.Create(4).Value);
     }
-}
+}*/

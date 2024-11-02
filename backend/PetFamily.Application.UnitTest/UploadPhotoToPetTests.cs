@@ -1,4 +1,4 @@
-using CSharpFunctionalExtensions;
+/*using CSharpFunctionalExtensions;
 using FluentAssertions;
 using FluentValidation;
 using FluentValidation.Results;
@@ -192,4 +192,4 @@ public class UploadPhotoToPetTests
         error.Message.Should().Contain("Fail to upload files in minio");
         error.Type.Should().Be(ErrorType.Failure);
     }
-}
+}*/

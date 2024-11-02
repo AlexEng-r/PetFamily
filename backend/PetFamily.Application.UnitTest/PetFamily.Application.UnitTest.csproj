@@ -24,7 +24,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\PetFamily.Base.Test\PetFamily.Base.Test.csproj" />
-      <ProjectReference Include="..\src\PetFamily.Application\PetFamily.Application.csproj" />
     </ItemGroup>
 
 </Project>

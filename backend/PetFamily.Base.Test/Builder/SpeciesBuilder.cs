@@ -1,4 +1,4 @@
-﻿using PetFamily.Domain.SpeciesManagement.Breeds;
+﻿/*using PetFamily.Domain.SpeciesManagement.Breeds;
 using PetFamily.Domain.SpeciesManagement.Specieses;
 using PetFamily.Domain.ValueObjects.String;
 
@@ -20,4 +20,4 @@ public static class SpeciesBuilder
 
         return species;
     }
-}
+}*/

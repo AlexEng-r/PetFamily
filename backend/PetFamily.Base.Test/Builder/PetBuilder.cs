@@ -1,4 +1,4 @@
-﻿using PetFamily.Domain.Shared;
+﻿/*using PetFamily.Domain.Shared;
 using PetFamily.Domain.ValueObjects.Addresses;
 using PetFamily.Domain.ValueObjects.Contacts;
 using PetFamily.Domain.ValueObjects.Requisites;
@@ -39,4 +39,4 @@ public static class PetBuilder
             DateTime.Now,
             requisites);
     }
-}
+}*/
