@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using PetFamily.Core.Enums;
 using PetFamily.SharedKernel;
 using PetFamily.SharedKernel.Interfaces;
 using PetFamily.SharedKernel.ValueObjects.Contacts;
@@ -9,7 +10,6 @@ using PetFamily.SharedKernel.ValueObjects.Requisites;
 using PetFamily.SharedKernel.ValueObjects.SocialNetworks;
 using PetFamily.SharedKernel.ValueObjects.String;
 using PetFamily.VolunteerManagement.Domain.Entities.Pets;
-using PetFamily.VolunteerManagement.Domain.Enums;
 
 namespace PetFamily.VolunteerManagement.Domain;
 

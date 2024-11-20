@@ -1,5 +1,5 @@
 ﻿using PetFamily.Core.Abstractions;
-using PetFamily.VolunteerManagement.Domain.Enums;
+using PetFamily.Core.Enums;
 
 namespace PetFamily.VolunteerManagement.Application.Commands.UpdatePetStatus;
 

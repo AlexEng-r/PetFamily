@@ -1,28 +1,28 @@
-/*using CSharpFunctionalExtensions;
+﻿using CSharpFunctionalExtensions;
 using FluentAssertions;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.Extensions.Logging;
 using Moq;
-using PetFamily.Application.Database;
-using PetFamily.Application.Dtos;
-using PetFamily.Application.MessageQueues;
-using PetFamily.Application.Providers.Crypto;
-using PetFamily.Application.Providers.File;
-using PetFamily.Application.Repositories.Volunteers;
-using PetFamily.Application.VolunteerManagement.Commands.AddPetPhoto;
 using PetFamily.Base.Test.Builder;
-using PetFamily.Domain.Shared;
-using PetFamily.Domain.VolunteerManagement.Volunteers;
-using FileInfo = PetFamily.Application.Providers.File.FileInfo;
+using PetFamily.Core.Dtos;
+using PetFamily.Core.MessageQueues;
+using PetFamily.Core.Providers.Crypto;
+using PetFamily.Core.Providers.File;
+using PetFamily.SharedKernel;
+using PetFamily.VolunteerManagement.Application;
+using PetFamily.VolunteerManagement.Application.Commands.AddPetPhoto;
+using PetFamily.VolunteerManagement.Application.Repositories;
+using PetFamily.VolunteerManagement.Domain;
+using FileInfo = PetFamily.Core.Providers.File.FileInfo;
 
-namespace PetFamily.Application.UnitTest;
+namespace PetFamily.Application.UnitTests;
 
 public class UploadPhotoToPetTests
 {
     private readonly Mock<IVolunteersRepository> _volunteerRepositoryMock = new();
     private readonly Mock<IValidator<AddPetPhotoCommand>> _validatorMock = new();
-    private readonly Mock<IUnitOfWork> _unitOfWorkMock = new();
+    private readonly Mock<IVolunteerUnitOfWork> _unitOfWorkMock = new();
     private readonly Mock<ILogger<AddPetPhotoHandler>> _loggerMock = new();
     private readonly Mock<IFileProvider> _fileProviderMock = new();
     private readonly Mock<IMessageQueue<IEnumerable<FileInfo>>> _messageQueueMock = new();
@@ -192,4 +192,4 @@ public class UploadPhotoToPetTests
         error.Message.Should().Contain("Fail to upload files in minio");
         error.Type.Should().Be(ErrorType.Failure);
     }
-}*/
+}

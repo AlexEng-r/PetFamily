@@ -1,7 +1,6 @@
-﻿using PetFamily.Core.Dtos;
-using PetFamily.VolunteerManagement.Domain.Enums;
+﻿using PetFamily.Core.Enums;
 
-namespace PetFamily.VolunteerManagement.Application.Dtos;
+namespace PetFamily.Core.Dtos;
 
 public class PetDto
 {

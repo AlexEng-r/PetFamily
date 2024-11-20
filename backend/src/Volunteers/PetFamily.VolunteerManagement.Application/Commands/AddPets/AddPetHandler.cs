@@ -63,7 +63,7 @@ public class AddPetHandler
                 return species.Error.ToErrorList();
             }
 
-            var breed = species.Value.Breeds.FirstOrDefault(x => x.Id.Value == command.BreedId);
+            var breed = species.Value.Breeds.FirstOrDefault(x => x.Id == command.BreedId);
             if (breed == null)
             {
                 return Errors.General.NotFound(command.BreedId).ToErrorList();

@@ -1,5 +1,5 @@
-﻿using PetFamily.VolunteerManagement.Application.Queries.GetPetsWithPagination;
-using PetFamily.VolunteerManagement.Domain.Enums;
+﻿using PetFamily.Core.Enums;
+using PetFamily.VolunteerManagement.Application.Queries.GetPetsWithPagination;
 
 namespace PetFamily.VolunteerManagement.Presentation.Requests;
 

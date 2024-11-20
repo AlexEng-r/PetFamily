@@ -1,10 +1,10 @@
-﻿/*using PetFamily.Domain.Shared;
-using PetFamily.Domain.ValueObjects.Addresses;
-using PetFamily.Domain.ValueObjects.Contacts;
-using PetFamily.Domain.ValueObjects.Requisites;
-using PetFamily.Domain.ValueObjects.String;
-using PetFamily.Domain.VolunteerManagement.Enums;
-using PetFamily.Domain.VolunteerManagement.Pets;
+﻿using PetFamily.Core.Enums;
+using PetFamily.SharedKernel.ValueObjects.Addresses;
+using PetFamily.SharedKernel.ValueObjects.Contacts;
+using PetFamily.SharedKernel.ValueObjects.Ids;
+using PetFamily.SharedKernel.ValueObjects.Requisites;
+using PetFamily.SharedKernel.ValueObjects.String;
+using PetFamily.VolunteerManagement.Domain.Entities.Pets;
 
 namespace PetFamily.Base.Test.Builder;
 
@@ -39,4 +39,4 @@ public static class PetBuilder
             DateTime.Now,
             requisites);
     }
-}*/
+}

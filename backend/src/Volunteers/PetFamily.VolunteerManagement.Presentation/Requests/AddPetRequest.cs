@@ -1,6 +1,6 @@
 ﻿using PetFamily.Core.Dtos;
+using PetFamily.Core.Enums;
 using PetFamily.VolunteerManagement.Application.Commands.AddPets;
-using PetFamily.VolunteerManagement.Domain.Enums;
 
 namespace PetFamily.VolunteerManagement.Presentation.Requests;
 

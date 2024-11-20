@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
+using PetFamily.Core.Enums;
 using PetFamily.Core.Validators;
 using PetFamily.SharedKernel;
-using PetFamily.VolunteerManagement.Domain.Enums;
 
 namespace PetFamily.VolunteerManagement.Application.Commands.UpdatePetStatus;
 

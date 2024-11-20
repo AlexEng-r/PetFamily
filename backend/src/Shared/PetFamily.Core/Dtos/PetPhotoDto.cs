@@ -1,4 +1,4 @@
-﻿namespace PetFamily.VolunteerManagement.Application.Dtos;
+﻿namespace PetFamily.Core.Dtos;
 
 public class PetPhotoDto
 {

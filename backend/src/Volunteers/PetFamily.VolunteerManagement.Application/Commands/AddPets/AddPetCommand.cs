@@ -1,6 +1,6 @@
 ﻿using PetFamily.Core.Abstractions;
 using PetFamily.Core.Dtos;
-using PetFamily.VolunteerManagement.Domain.Enums;
+using PetFamily.Core.Enums;
 
 namespace PetFamily.VolunteerManagement.Application.Commands.AddPets;
 

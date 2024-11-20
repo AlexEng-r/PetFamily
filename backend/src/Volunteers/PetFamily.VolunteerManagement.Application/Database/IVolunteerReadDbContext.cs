@@ -1,4 +1,4 @@
-using PetFamily.VolunteerManagement.Application.Dtos;
+using PetFamily.Core.Dtos;
 
 namespace PetFamily.VolunteerManagement.Application.Database;
 

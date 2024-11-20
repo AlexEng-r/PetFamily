@@ -1,4 +1,4 @@
-﻿namespace PetFamily.VolunteerManagement.Domain.Enums;
+﻿namespace PetFamily.Core.Enums;
 
 public enum StatusType
 {

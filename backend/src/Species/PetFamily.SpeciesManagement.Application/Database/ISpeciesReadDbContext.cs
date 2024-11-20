@@ -1,4 +1,4 @@
-﻿using PetFamily.SpeciesManagement.Application.Dtos;
+﻿using PetFamily.Core.Dtos;
 
 namespace PetFamily.SpeciesManagement.Application.Database;
 

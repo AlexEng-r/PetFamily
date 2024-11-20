@@ -2,10 +2,10 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using PetFamily.Core.Abstractions;
+using PetFamily.Core.Dtos;
 using PetFamily.Core.Extensions;
 using PetFamily.SharedKernel;
 using PetFamily.VolunteerManagement.Application.Database;
-using PetFamily.VolunteerManagement.Application.Dtos;
 
 namespace PetFamily.VolunteerManagement.Application.Queries.GetPetById;
 

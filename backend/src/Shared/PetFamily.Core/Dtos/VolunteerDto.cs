@@ -1,6 +1,4 @@
-﻿using PetFamily.Core.Dtos;
-
-namespace PetFamily.VolunteerManagement.Application.Dtos;
+﻿namespace PetFamily.Core.Dtos;
 
 public class VolunteerDto
 {

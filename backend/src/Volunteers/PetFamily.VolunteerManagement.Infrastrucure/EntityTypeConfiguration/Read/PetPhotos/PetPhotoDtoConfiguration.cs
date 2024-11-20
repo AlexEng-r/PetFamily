@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetFamily.VolunteerManagement.Application.Dtos;
+using PetFamily.Core.Dtos;
 
 namespace PetFamily.VolunteerManagement.Infrastrucure.EntityTypeConfiguration.Read.PetPhotos;
 
